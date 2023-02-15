@@ -1,7 +1,7 @@
 mysql:
   host: 127.0.0.1
   port: 3306
-  config: ""
+  config: "charset=utf8mb4&parseTime=True&loc=Local"
   db: gvb_db
   user: root
   password: root
@@ -18,7 +18,7 @@ system:
   env: release
 upload:
   size: 2
-  path: uploads/file/xxx
+  path: uploads/file
 site_info:
   created_at: "2023-02-12"
   bei_an: 湘ICP备2021010654号-3
