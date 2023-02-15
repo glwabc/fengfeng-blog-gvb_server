@@ -41,12 +41,12 @@ qq:
   key: xx
   redirect: http://xx.xx.com/login?flag=qq
 qi_niu:
-  enable: false
-  access_key: UMM-xx-FdRIf-xx
-  secret_key: xx
+  enable: true
+  access_key: UMM-dgbL9Wf-FdRIf-OvkIakNfVCoAXUELkVUXpo
+  secret_key: 0WVpeKuckP6Ev2A5EGr0nKNHgNItr_KgsZuI0jlS
   bucket: fengfengzhidao
-  cdn: xx://xx.xx.com/
-  zone: xx
+  cdn: https://python.fengfengzhidao.com/
+  zone: z2
   size: 5
 email:
   host: ""
