@@ -47,6 +47,7 @@ qi_niu:
   bucket: fengfengzhidao
   cdn: https://python.fengfengzhidao.com/
   zone: z2
+  prefix: "gvb"
   size: 5
 email:
   host: ""
