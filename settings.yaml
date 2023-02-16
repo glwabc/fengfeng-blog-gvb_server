@@ -42,10 +42,10 @@ qq:
   redirect: http://xx.xx.com/login?flag=qq
 qi_niu:
   enable: true
-  access_key: UMM-dgbL9Wf-FdRIf-OvkIakNfVCoAXUELkVUXpo
-  secret_key: 0WVpeKuckP6Ev2A5EGr0nKNHgNItr_KgsZuI0jlS
-  bucket: fengfengzhidao
-  cdn: https://python.fengfengzhidao.com/
+  access_key: UMM244VUXpo
+  secret_key: 0WV44A5EGr44uI0jlS
+  bucket: feng44idao
+  cdn: http://python.fengfengzhidao.com/
   zone: z2
   prefix: "gvb"
   size: 5

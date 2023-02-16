@@ -77,6 +77,7 @@ func (ImageService) ImageUploadService(file *multipart.FileHeader) (res FileUplo
 		if err != nil {
 			global.Log.Error(err)
 			res.Msg = err.Error()
+			res.IsSuccess = false
 			return
 		}
 		res.FileName = filePath

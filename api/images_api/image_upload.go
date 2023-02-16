@@ -10,20 +10,6 @@ import (
 	"os"
 )
 
-var (
-	// WhiteImageList 图片上传的白名单
-	WhiteImageList = []string{
-		"jpg",
-		"png",
-		"jpeg",
-		"ico",
-		"tiff",
-		"gif",
-		"svg",
-		"webp",
-	}
-)
-
 // ImageUploadView 上传单个图片，返回图片的url
 func (ImagesApi) ImageUploadView(c *gin.Context) {
 	// 上传多个图片
