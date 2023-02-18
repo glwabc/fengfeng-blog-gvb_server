@@ -14,7 +14,7 @@ logger:
   log_in_console: true
 system:
   host: 0.0.0.0
-  port: 8080
+  port: 80
   env: release
 upload:
   size: 2
@@ -37,9 +37,9 @@ site_info:
   gitee_url: https://gitee.com/fengfengzhidao
   github_url: https://github.com/fengfengzhidao/
 qq:
-  app_id: dsgdh
-  key: xx
-  redirect: http://xx.xx.com/login?flag=qq
+  app_id: 101974593
+  key: db7dff0d0159b078ec225b1648b8ef50
+  redirect: http://blog.fengfengzhidao.com/login?flag=qq
 qi_niu:
   enable: true
   access_key: UMM244VUXpo
@@ -52,8 +52,8 @@ qi_niu:
 email:
   host: smtp.qq.com
   port: 465
-  user: 2974771769@qq.com
-  password: gfpiscbiaedwddcf
+  user: 2xx7xxx@qq.com
+  password: xxxx
   default_from_email: 枫枫知道
   use_ssl: true
   user_tls: false
