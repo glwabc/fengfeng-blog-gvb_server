@@ -50,11 +50,11 @@ qi_niu:
   prefix: "gvb"
   size: 5
 email:
-  host: ""
-  port: 0
-  user: xxx@qq.com
-  password: ""
-  default_from_email: ""
+  host: smtp.qq.com
+  port: 465
+  user: 2974771769@qq.com
+  password: gfpiscbiaedwddcf
+  default_from_email: 枫枫知道
   use_ssl: true
   user_tls: false
 jwy:
