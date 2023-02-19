@@ -1,11 +1,10 @@
-package message_api
+package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"gvb_server/core"
 	"gvb_server/global"
 	"gvb_server/models"
-	"gvb_server/models/res"
-	"gvb_server/utils/jwts"
 	"time"
 )
 
@@ -16,23 +15,30 @@ type Message struct {
 	RevUserID        uint      `json:"rev_user_id"` // 接收人id
 	RevUserNickName  string    `json:"rev_user_nick_name"`
 	RevUserAvatar    string    `json:"rev_user_avatar"`
-	Content          string    `json:"content"`       // 消息内容
-	CreatedAt        time.Time `json:"created_at"`    // 最新的消息时间
-	MessageCount     int       `json:"message_count"` // 消息条数
+	Content          string    `json:"content"`    // 消息内容
+	CreatedAt        time.Time `json:"created_at"` // 创建时间
+	MessageCount     int       `json:"message_count"`
 }
 
 type MessageGroup map[uint]*Message
 
-func (MessageApi) MessageListView(c *gin.Context) {
-	_claims, _ := c.Get("claims")
-	claims := _claims.(*jwts.CustomClaims)
+var messageGroup = MessageGroup{}
 
-	var messageGroup = MessageGroup{}
+const (
+	userID       = 1
+	userNickName = "张三三"
+)
+
+func main() {
+	// 读取配置文件
+	core.InitConf()
+	// 初始化日志
+	global.Log = core.InitLogger()
+	// 连接数据库
+	global.DB = core.InitGorm()
+
 	var messageList []models.MessageModel
-	var messages []Message
-
-	global.DB.Order("created_at asc").
-		Find(&messageList, "send_user_id = ? or rev_user_id = ?", claims.UserID, claims.UserID)
+	global.DB.Order("created_at asc").Find(&messageList, "send_user_id = ? or rev_user_id = ?", userID, userID)
 	for _, model := range messageList {
 		// 判断是一个组的条件
 		// send_user_id 和 rev_user_id 其中一个
@@ -59,10 +65,8 @@ func (MessageApi) MessageListView(c *gin.Context) {
 		message.MessageCount = val.MessageCount + 1
 		messageGroup[idNum] = &message
 	}
-	for _, message := range messageGroup {
-		messages = append(messages, *message)
-	}
 
-	res.OkWithData(messages, c)
-	return
+	for _, message := range messageGroup {
+		fmt.Println(*message)
+	}
 }
