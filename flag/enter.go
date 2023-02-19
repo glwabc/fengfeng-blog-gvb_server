@@ -3,6 +3,8 @@ package flag
 import (
 	sys_flag "flag"
 	"github.com/fatih/structs"
+	"gvb_server/core"
+	"gvb_server/global"
 )
 
 type Option struct {
@@ -54,6 +56,8 @@ func SwitchOption(option Option) {
 		return
 	}
 	if option.ES == "create" {
+		// 连接es
+		global.ESClient = core.EsConnect()
 		EsCreateIndex()
 	}
 	//fmt.Printf("%#v\n", option.User)
