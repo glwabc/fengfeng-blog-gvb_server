@@ -41,7 +41,7 @@ qq:
   key: db7dff0d0159b078ec225b1648b8ef50
   redirect: http://blog.fengfengzhidao.com/login?flag=qq
 qi_niu:
-  enable: true
+  enable: false
   access_key: UMM244VUXpo
   secret_key: 0WV44A5EGr44uI0jlS
   bucket: feng44idao
