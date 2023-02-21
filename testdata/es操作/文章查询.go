@@ -61,10 +61,30 @@ func FindArticleList(key string, page, limit int) {
 
 }
 
+func FindArticleByTitle(key string) {
+	boolSearch := elastic.NewBoolQuery()
+	if key != "" {
+		boolSearch.Must(
+			elastic.NewMatchQuery("title", key),
+		)
+	}
+	res, _ := global.ESClient.
+		Search(models.ArticleModel{}.Index()).
+		Query(boolSearch).
+		Size(2).
+		Do(context.Background())
+	fmt.Println(res.Hits.TotalHits.Value)
+	fmt.Println(len(res.Hits.Hits))
+	for _, hit := range res.Hits.Hits {
+		fmt.Println(string(hit.Source))
+	}
+}
+
 func main() {
 	core.InitConf()
 	core.InitLogger()
 	global.ESClient = core.EsConnect()
 
-	FindArticleList("", 1, 10)
+	FindArticleByTitle("golang测试")
+	//FindArticleList("", 1, 10)
 }

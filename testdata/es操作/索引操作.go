@@ -18,6 +18,9 @@ func (DemoModel) Mapping() string {
       "title": { 
         "type": "text"
       },
+      "key": { 
+        "type": "keyword"
+      },
       "user_id": {
         "type": "integer"
       },

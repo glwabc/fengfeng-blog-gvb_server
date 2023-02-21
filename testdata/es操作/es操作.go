@@ -35,6 +35,7 @@ func init() {
 type DemoModel struct {
 	ID        string `json:"id"`
 	Title     string `json:"title"`
+	Key       string `json:"key"`
 	UserID    uint   `json:"user_id"`
 	CreatedAt string `json:"created_at"`
 }
@@ -176,13 +177,34 @@ func Remove(idList []string) (count int, err error) {
 	return len(res.Succeeded()), err
 }
 
+func FindDemoByKey(key string) {
+	boolSearch := elastic.NewBoolQuery()
+	if key != "" {
+		boolSearch.Must(
+			elastic.NewTermQuery("key", key),
+		)
+	}
+	res, err := client.
+		Search(DemoModel{}.Index()).
+		Query(boolSearch).
+		Size(2).
+		Do(context.Background())
+	fmt.Println(err)
+	fmt.Println(res.Hits.TotalHits.Value)
+	fmt.Println(len(res.Hits.Hits))
+	for _, hit := range res.Hits.Hits {
+		fmt.Println(string(hit.Source))
+	}
+}
+
 func main() {
 	//DemoModel{}.CreateIndex()
-	//Create(&DemoModel{Title: "Go语言开发", UserID: 2, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
+	//Create(&DemoModel{Title: "Go语言开发", Key: "Go语言开发", UserID: 2, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
 	//list, count := FindList("", 1, 10)
 	//fmt.Println(list, count)
 	//FindSourceList("python", 1, 10) // 搜索似乎失效了
 	//Update("RLy3aIYB225eMxiWSlnW", &DemoModel{Title: "python零基础入门"})
 	//count, err := Remove([]string{"RLy3aIYB225eMxiWSlnW"})
 	//fmt.Println(count, err)
+	FindDemoByKey("Go语言开发")
 }
