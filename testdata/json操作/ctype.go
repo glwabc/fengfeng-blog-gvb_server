@@ -12,7 +12,7 @@ type User struct {
 	Avatar     string    `json:"avatar,select(article)"`
 	Nickname   string    `json:"nickname,select(article|profile|list)"`
 	Sex        int       `json:"sex,select(profile)"`
-	VipEndTime time.Time `json:"vip_end_time,select(profile)"`
+	VipEndTime time.Time `json:"vip_end_time,select(profile),omit(vip)"`
 	Price      string    `json:"price,select(profile)"`
 }
 
@@ -40,4 +40,5 @@ func main() {
 	fmt.Println(filter.Select("profile", user)) //profile result
 	//{"nickname":"boyan","price":"999.9","sex":1,"vip_end_time":"2023-03-06T23:31:28.636529+08:00"}
 	fmt.Println(filter.Select("list", user))
+	fmt.Println(filter.Omit("vip", user))
 }
