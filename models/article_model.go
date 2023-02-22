@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 	"gvb_server/global"
@@ -201,4 +202,16 @@ func (a ArticleModel) ISExistData() bool {
 		return true
 	}
 	return false
+}
+func (a *ArticleModel) GetDataByID(id string) error {
+	res, err := global.ESClient.
+		Get().
+		Index(a.Index()).
+		Id(id).
+		Do(context.Background())
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(res.Source, a)
+	return err
 }
