@@ -45,19 +45,23 @@ func main() {
 		[{"tag": "python", "article_count": 2, "article_list": []}]
 	*/
 
-	agg := elastic.NewCardinalityAggregation().Field("tags")
+	result, err := global.ESClient.
+		Search(models.ArticleModel{}.Index()).
+		Aggregation("tags", elastic.NewValueCountAggregation().Field("tags")).
+		Size(0).
+		Do(context.Background())
+	cTag, _ := result.Aggregations.Cardinality("tags")
+	count := int64(*cTag.Value)
+	fmt.Println(count)
 
 	//agg.SubAggregation("article_id", elastic.NewTermsAggregation().Field("_id"))
 	//agg.SubAggregation("article_key", elastic.NewTermsAggregation().Field("keyword"))
 	//agg.SubAggregation("page", elastic.NewBucketSortAggregation())
 
-	query := elastic.NewBoolQuery()
-
-	result, err := global.ESClient.
+	result, err = global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(query).
-		Aggregation("tags", agg).
-		Size(0).TrackTotalHits(false).
+		Aggregation("tags", elastic.NewValueCountAggregation().Field("tags")).
+		Size(0).
 		Do(context.Background())
 	if err != nil {
 		global.Log.Error(err)

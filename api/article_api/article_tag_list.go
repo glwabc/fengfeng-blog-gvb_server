@@ -49,7 +49,7 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 
 	result, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Aggregation("tags", elastic.NewValueCountAggregation().Field("tags")).
+		Aggregation("tags", elastic.NewCardinalityAggregation().Field("tags")).
 		Size(0).
 		Do(context.Background())
 	cTag, _ := result.Aggregations.Cardinality("tags")
