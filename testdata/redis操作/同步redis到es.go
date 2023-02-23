@@ -31,14 +31,18 @@ func main() {
 	}
 
 	diggInfo := redis_ser.GetDiggInfo()
+	lookInfo := redis_ser.GetLookInfo()
 	for _, hit := range result.Hits.Hits {
 		var article models.ArticleModel
 		err = json.Unmarshal(hit.Source, &article)
 
 		digg := diggInfo[hit.Id]
+		look := lookInfo[hit.Id]
+
 		newDigg := article.DiggCount + digg
-		if article.DiggCount == newDigg {
-			logrus.Info(article.Title, "点赞数无变化")
+		newLook := article.LookCount + look
+		if article.DiggCount == newDigg && article.LookCount == newLook {
+			logrus.Info(article.Title, "点赞数和浏览数无变化")
 			continue
 		}
 		_, err := global.ESClient.
@@ -47,14 +51,16 @@ func main() {
 			Id(hit.Id).
 			Doc(map[string]int{
 				"digg_count": newDigg,
+				"look_count": newLook,
 			}).
 			Do(context.Background())
 		if err != nil {
 			logrus.Error(err.Error())
 			continue
 		}
-		logrus.Info(article.Title, "点赞数据同步成功， 点赞数", newDigg)
+		logrus.Infof("%s, 点赞数据同步成功， 点赞数 %d 浏览数 %d ", article.Title, newDigg, newLook)
 	}
 	redis_ser.DiggClear()
+	redis_ser.LookClear()
 
 }

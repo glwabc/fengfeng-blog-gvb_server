@@ -5,6 +5,7 @@ import (
 	"gvb_server/models"
 	"gvb_server/models/res"
 	"gvb_server/service/es_ser"
+	"gvb_server/service/redis_ser"
 )
 
 func (ArticleApi) ArticleDetailView(c *gin.Context) {
@@ -14,6 +15,7 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
+	redis_ser.Look(cr.ID)
 	model, err := es_ser.CommDetail(cr.ID)
 	if err != nil {
 		res.FailWithMessage(err.Error(), c)
