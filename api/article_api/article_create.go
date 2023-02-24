@@ -8,6 +8,7 @@ import (
 	"gvb_server/global"
 	"gvb_server/models"
 	"gvb_server/models/res"
+	"gvb_server/service/es_ser"
 	"gvb_server/utils/jwts"
 	"math/rand"
 	"strings"
@@ -16,13 +17,13 @@ import (
 
 type ArticleRequest struct {
 	Title    string   `json:"title" binding:"required" msg:"文章标题必填"`   // 文章标题
-	Abstract string   `json:"abstract"`                                      // 文章简介
+	Abstract string   `json:"abstract"`                                // 文章简介
 	Content  string   `json:"content" binding:"required" msg:"文章内容必填"` // 文章内容
-	Category string   `json:"category"`                                      // 文章分类
-	Source   string   `json:"source"`                                        // 文章来源
-	Link     string   `json:"link"`                                          // 原文链接
-	BannerID uint     `json:"banner_id"`                                     // 文章封面id
-	Tags     []string `json:"tags"`                                          // 文章标签
+	Category string   `json:"category"`                                // 文章分类
+	Source   string   `json:"source"`                                  // 文章来源
+	Link     string   `json:"link"`                                    // 原文链接
+	BannerID uint     `json:"banner_id"`                               // 文章封面id
+	Tags     []string `json:"tags"`                                    // 文章标签
 }
 
 func (ArticleApi) ArticleCreateView(c *gin.Context) {
@@ -120,6 +121,9 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
+
+	go es_ser.AsyncArticleByFullText(article.ID, article.Title, article.Content)
+
 	res.OkWithMessage("文章发布成功", c)
 
 }
