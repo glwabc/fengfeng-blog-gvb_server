@@ -25,7 +25,7 @@ type EmailLoginRequest struct {
 // @Param data body EmailLoginRequest  true  "查询参数"
 // @Router /api/email_login [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (UserApi) EmailLoginView(c *gin.Context) {
 	var cr EmailLoginRequest
 	err := c.ShouldBindJSON(&cr)

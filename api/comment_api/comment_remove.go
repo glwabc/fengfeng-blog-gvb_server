@@ -19,7 +19,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/comments/:id [delete]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (CommentApi) CommentRemoveView(c *gin.Context) {
 	var cr CommentIDRequest
 	err := c.ShouldBindUri(&cr)

@@ -16,7 +16,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/digg/article [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ImagesApi) ImageRemoveView(c *gin.Context) {
 	var cr models.RemoveRequest
 	err := c.ShouldBindJSON(&cr)

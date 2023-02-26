@@ -32,7 +32,7 @@ type MenuRequest struct {
 // @Param token header string  true  "token"
 // @Router /api/menus [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (MenuApi) MenuCreateView(c *gin.Context) {
 	var cr MenuRequest
 	err := c.ShouldBindJSON(&cr)

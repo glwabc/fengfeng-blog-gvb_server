@@ -972,12 +972,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 批量删除广告
       tags:
       - 广告管理
@@ -1056,12 +1051,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 更新广告
       tags:
       - 广告管理
@@ -1086,12 +1076,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 删除文章
       tags:
       - 文章管理
@@ -1171,12 +1156,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 文章更新
       tags:
       - 文章管理
@@ -1239,12 +1219,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 用户取消收藏文章
       tags:
       - 文章管理
@@ -1294,12 +1269,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 用户收藏文章，或取消收藏
       tags:
       - 文章管理
@@ -1380,12 +1350,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 群聊接口 websocket
       tags:
       - 聊天管理
@@ -1462,12 +1427,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 发布评论
       tags:
       - 评论管理
@@ -1492,12 +1452,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 删除评论
       tags:
       - 评论管理
@@ -1509,12 +1464,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 评论点赞
       tags:
       - 评论管理
@@ -1579,12 +1529,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 文章点赞
       tags:
       - 图片管理
@@ -1604,12 +1549,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 邮箱登录
       tags:
       - 用户管理
@@ -1664,7 +1604,7 @@ paths:
       summary: 图片列表
       tags:
       - 图片管理
-    put:
+    post:
       description: 上传多个图片，返回图片的url
       parameters:
       - description: token
@@ -1678,13 +1618,32 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 上传多个图片，返回图片的url
+      tags:
+      - 图片管理
+    put:
+      description: 图片更新
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/images_api.ImageUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 图片更新
       tags:
       - 图片管理
   /api/login:
@@ -1702,12 +1661,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: qq登录
       tags:
       - 用户管理
@@ -1751,12 +1705,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 删除日志
       tags:
       - 日志管理
@@ -1831,12 +1780,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 删除菜单
       tags:
       - 菜单管理
@@ -1879,12 +1823,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 发布菜单
       tags:
       - 菜单管理
@@ -1908,12 +1847,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 更新菜单
       tags:
       - 菜单管理
@@ -1991,12 +1925,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 发布消息
       tags:
       - 消息管理

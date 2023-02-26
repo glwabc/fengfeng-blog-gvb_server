@@ -17,7 +17,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/menus [delete]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (MenuApi) MenuRemoveView(c *gin.Context) {
 	var cr models.RemoveRequest
 	err := c.ShouldBindJSON(&cr)

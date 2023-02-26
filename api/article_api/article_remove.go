@@ -23,7 +23,7 @@ type IDListRequest struct {
 // @Param token header string  true  "token"
 // @Router /api/articles [delete]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ArticleApi) ArticleRemoveView(c *gin.Context) {
 	var cr IDListRequest
 	err := c.ShouldBindJSON(&cr)

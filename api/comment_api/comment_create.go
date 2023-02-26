@@ -25,7 +25,7 @@ type CommentRequest struct {
 // @Param token header string  true  "token"
 // @Router /api/comments [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (CommentApi) CommentCreateView(c *gin.Context) {
 	var cr CommentRequest
 	err := c.ShouldBindJSON(&cr)

@@ -15,9 +15,9 @@ import (
 // @Summary 上传多个图片，返回图片的url
 // @Description 上传多个图片，返回图片的url
 // @Param token header string  true  "token"
-// @Router /api/images [put]
+// @Router /api/images [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ImagesApi) ImageUploadView(c *gin.Context) {
 	// 上传多个图片
 	form, err := c.MultipartForm()

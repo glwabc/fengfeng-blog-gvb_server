@@ -17,7 +17,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/articles/collects [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ArticleApi) ArticleCollCreateView(c *gin.Context) {
 	var cr models.ESIDRequest
 	err := c.ShouldBindJSON(&cr)

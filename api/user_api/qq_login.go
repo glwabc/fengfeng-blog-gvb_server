@@ -20,7 +20,7 @@ import (
 // @Param code query string  true  "qq登录的code"
 // @Router /api/login [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (UserApi) QQLoginView(c *gin.Context) {
 	code := c.Query("code")
 	if code == "" {

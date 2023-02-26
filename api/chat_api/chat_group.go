@@ -55,7 +55,7 @@ type GroupResponse struct {
 // @Param data body GroupRequest   false  "表示多个参数"
 // @Router /api/chat_groups [get]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ChatApi) ChatGroupView(c *gin.Context) {
 	var upGrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {

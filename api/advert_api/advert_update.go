@@ -16,7 +16,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/adverts/:id [put]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (AdvertApi) AdvertUpdateView(c *gin.Context) {
 
 	id := c.Param("id")

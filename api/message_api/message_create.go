@@ -21,7 +21,7 @@ type MessageRequest struct {
 // @Param token header string  true  "token"
 // @Router /api/messages [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (MessageApi) MessageCreateView(c *gin.Context) {
 	// 当前用户发布消息
 	// SendUserID 就是当前登录人的id

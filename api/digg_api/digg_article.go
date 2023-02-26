@@ -14,7 +14,7 @@ import (
 // @Param data body models.ESIDRequest   true  "表示多个参数"
 // @Router /api/digg/article [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (DiggApi) DiggArticleView(c *gin.Context) {
 	var cr models.ESIDRequest
 	err := c.ShouldBindJSON(&cr)

@@ -20,7 +20,7 @@ type ImageUpdateRequest struct {
 // @Param data body ImageUpdateRequest   true  "表示多个参数"
 // @Router /api/images [put]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ImagesApi) ImageUpdateView(c *gin.Context) {
 	var cr ImageUpdateRequest
 	err := c.ShouldBindJSON(&cr)

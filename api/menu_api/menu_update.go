@@ -16,7 +16,7 @@ import (
 // @Param token header string  true  "token"
 // @Router /api/menus [put]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (MenuApi) MenuUpdateView(c *gin.Context) {
 	var cr MenuRequest
 	err := c.ShouldBindJSON(&cr)

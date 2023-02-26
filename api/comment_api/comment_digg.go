@@ -19,7 +19,7 @@ type CommentIDRequest struct {
 // @Description 评论点赞
 // @Router /api/comments/:id [get]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (CommentApi) CommentDigg(c *gin.Context) {
 	var cr CommentIDRequest
 	err := c.ShouldBindUri(&cr)

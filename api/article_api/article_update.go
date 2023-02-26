@@ -31,7 +31,7 @@ type ArticleUpdateRequest struct {
 // @Param token header string  true  "token"
 // @Router /api/articles [put]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 	var cr ArticleUpdateRequest
 	err := c.ShouldBindJSON(&cr)
