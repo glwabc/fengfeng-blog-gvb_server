@@ -8,6 +8,14 @@ import (
 	"gvb_server/models/res"
 )
 
+// MenuUpdateView 更新菜单
+// @Tags 菜单管理
+// @Summary 更新菜单
+// @Description 更新菜单
+// @Param data body MenuRequest  true  "查询参数"
+// @Router /api/menus [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (MenuApi) MenuUpdateView(c *gin.Context) {
 	var cr MenuRequest
 	err := c.ShouldBindJSON(&cr)
