@@ -17,6 +17,7 @@ type MessageRecordRequest struct {
 // @Summary 用户的消息记录
 // @Description 用户的消息记录
 // @Router /api/messages_record [post]
+// @Param token header string  true  "token"
 // @Param data body MessageRecordRequest  true  "查询参数"
 // @Produce json
 // @Success 200 {object} res.Response{data=[]models.MessageModel}

@@ -16,6 +16,7 @@ type TagRequest struct {
 // @Summary 发布标签
 // @Description 发布标签
 // @Param data body TagRequest  true  "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/tags [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

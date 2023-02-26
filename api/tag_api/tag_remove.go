@@ -13,6 +13,7 @@ import (
 // @Summary 标签删除
 // @Description 标签删除
 // @Param data body models.RemoveRequest  true  "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/tags [delete]
 // @Produce json
 // @Success 200 {object} res.Response{}

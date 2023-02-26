@@ -12,6 +12,7 @@ import (
 // @Summary 消息列表
 // @Description 消息列表
 // @Router /api/messages [get]
+// @Param token header string  true  "token"
 // @Param data query models.PageInfo    false  "查询参数"
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.MessageModel]}

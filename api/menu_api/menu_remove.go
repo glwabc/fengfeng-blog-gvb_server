@@ -14,6 +14,7 @@ import (
 // @Summary 删除菜单
 // @Description 删除菜单
 // @Param data body models.RemoveRequest  true  "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/menus [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

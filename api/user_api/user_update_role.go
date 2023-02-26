@@ -18,6 +18,7 @@ type UserRole struct {
 // @Tags 用户管理
 // @Summary 用户权限变更
 // @Description 用户权限变更
+// @Param token header string  true  "token"
 // @Param data body UserRole  true  "查询参数"
 // @Router /api/user_role [put]
 // @Produce json

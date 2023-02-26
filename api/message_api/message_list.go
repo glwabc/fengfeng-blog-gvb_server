@@ -28,6 +28,7 @@ type MessageGroup map[uint]*Message
 // @Summary 用户与其他人的消息列表
 // @Description 用户与其他人的消息列表
 // @Router /api/messages [get]
+// @Param token header string  true  "token"
 // @Produce json
 // @Success 200 {object} res.Response{data=[]Message}
 func (MessageApi) MessageListView(c *gin.Context) {

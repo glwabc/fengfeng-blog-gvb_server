@@ -14,6 +14,7 @@ import (
 // @Tags 图片管理
 // @Summary 上传多个图片，返回图片的url
 // @Description 上传多个图片，返回图片的url
+// @Param token header string  true  "token"
 // @Router /api/images [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

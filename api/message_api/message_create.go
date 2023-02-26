@@ -18,6 +18,7 @@ type MessageRequest struct {
 // @Summary 发布消息
 // @Description 发布消息
 // @Param data body MessageRequest  true  "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/messages [post]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

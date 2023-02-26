@@ -13,6 +13,7 @@ import (
 // @Summary 修改某一项的配置信息
 // @Description 修改某一项的配置信息
 // @Router /api/settings/:name [put]
+// @Param token header string  true  "token"
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (SettingsApi) SettingsInfoUpdateView(c *gin.Context) {

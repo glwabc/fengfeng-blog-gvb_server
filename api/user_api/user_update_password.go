@@ -19,6 +19,7 @@ type UpdatePasswordRequest struct {
 // @Summary 修改登录人的密码
 // @Description 修改登录人的密码
 // @Param data body UpdatePasswordRequest  true  "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/user_password [put]
 // @Produce json
 // @Success 200 {object} res.Response{}

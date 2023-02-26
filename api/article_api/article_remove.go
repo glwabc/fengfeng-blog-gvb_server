@@ -20,6 +20,7 @@ type IDListRequest struct {
 // @Summary 删除文章
 // @Description 删除文章
 // @Param data body IDListRequest   true  "表示多个参数"
+// @Param token header string  true  "token"
 // @Router /api/articles [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

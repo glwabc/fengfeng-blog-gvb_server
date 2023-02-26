@@ -13,6 +13,7 @@ import (
 // @Summary 更新标签
 // @Description 更新标签
 // @Param data body TagRequest  true "查询参数"
+// @Param token header string  true  "token"
 // @Router /api/tags/:id [put]
 // @Produce json
 // @Success 200 {object} res.Response{}

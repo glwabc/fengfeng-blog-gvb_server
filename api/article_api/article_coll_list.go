@@ -22,6 +22,7 @@ type CollResponse struct {
 // @Summary 用户收藏的文章列表
 // @Description 用户收藏的文章列表
 // @Param data query models.ESIDRequest   true  "表示多个参数"
+// @Param token header string  true  "token"
 // @Router /api/articles/collects [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[CollResponse]}

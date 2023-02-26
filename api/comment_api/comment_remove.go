@@ -16,6 +16,7 @@ import (
 // @Summary 删除评论
 // @Description 删除评论
 // @Param data body CommentIDRequest   true  "表示多个参数"
+// @Param token header string  true  "token"
 // @Router /api/comments/:id [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

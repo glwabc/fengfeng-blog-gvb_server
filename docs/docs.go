@@ -87,6 +87,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/advert_api.AdvertRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -116,6 +123,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -159,6 +173,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/advert_api.AdvertRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -258,6 +279,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/article_api.ArticleUpdateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -299,6 +327,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/article_api.ArticleRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -328,6 +363,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/article_api.IDListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -434,6 +476,13 @@ const docTemplate = `{
                         "type": "string",
                         "name": "id",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -475,6 +524,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -516,6 +572,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -800,6 +863,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/comment_api.CommentRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -873,6 +943,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/comment_api.CommentIDRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -986,6 +1063,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1150,6 +1234,15 @@ const docTemplate = `{
                     "图片管理"
                 ],
                 "summary": "上传多个图片，返回图片的url",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1313,6 +1406,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1424,6 +1524,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/menu_api.MenuRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1465,6 +1572,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/menu_api.MenuRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1506,6 +1620,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1575,6 +1696,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "name": "key",
                         "in": "query"
                     },
@@ -1633,6 +1761,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/message_api.MessageRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1668,6 +1803,13 @@ const docTemplate = `{
                 ],
                 "summary": "用户的消息记录",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "查询参数",
                         "name": "data",
@@ -1766,6 +1908,15 @@ const docTemplate = `{
                     "系统管理"
                 ],
                 "summary": "修改某一项的配置信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1847,6 +1998,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/tag_api.TagRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1876,6 +2034,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1907,6 +2072,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/tag_api.TagRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1938,6 +2110,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.BindEmailRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1969,6 +2148,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UpdatePasswordRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1992,6 +2178,13 @@ const docTemplate = `{
                 ],
                 "summary": "用户权限变更",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "查询参数",
                         "name": "data",
@@ -2083,6 +2276,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UserCreateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2112,6 +2312,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {

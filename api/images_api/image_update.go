@@ -16,6 +16,7 @@ type ImageUpdateRequest struct {
 // @Tags 图片管理
 // @Summary 图片更新
 // @Description 图片更新
+// @Param token header string  true  "token"
 // @Param data body ImageUpdateRequest   true  "表示多个参数"
 // @Router /api/images [put]
 // @Produce json

@@ -13,6 +13,7 @@ import (
 // @Summary 文章点赞
 // @Description 文章点赞
 // @Param data body models.ESIDRequest   true  "表示多个参数"
+// @Param token header string  true  "token"
 // @Router /api/digg/article [post]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
