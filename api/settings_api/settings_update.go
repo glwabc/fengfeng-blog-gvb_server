@@ -9,6 +9,12 @@ import (
 )
 
 // SettingsInfoUpdateView 修改某一项的配置信息
+// @Tags 系统管理
+// @Summary 修改某一项的配置信息
+// @Description 修改某一项的配置信息
+// @Router /api/settings/:name [put]
+// @Produce json
+// @Success 200 {object} res.Response{}
 func (SettingsApi) SettingsInfoUpdateView(c *gin.Context) {
 	var cr SettingsUri
 	err := c.ShouldBindUri(&cr)

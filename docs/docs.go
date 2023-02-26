@@ -1448,6 +1448,220 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/messages": {
+            "get": {
+                "description": "消息列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "消息管理"
+                ],
+                "summary": "消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_MessageModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "发布消息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "消息管理"
+                ],
+                "summary": "发布消息",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/message_api.MessageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/messages_record": {
+            "post": {
+                "description": "用户的消息记录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "消息管理"
+                ],
+                "summary": "用户的消息记录",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/message_api.MessageRecordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.MessageModel"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/news": {
+            "post": {
+                "description": "新闻列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "新闻管理"
+                ],
+                "summary": "新闻列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/redis_ser.NewData"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/settings/:name": {
+            "get": {
+                "description": "显示某一项的配置信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统管理"
+                ],
+                "summary": "显示某一项的配置信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "修改某一项的配置信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统管理"
+                ],
+                "summary": "修改某一项的配置信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -2044,6 +2258,76 @@ const docTemplate = `{
                 }
             }
         },
+        "message_api.Message": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "消息内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "最新的消息时间",
+                    "type": "string"
+                },
+                "message_count": {
+                    "description": "消息条数",
+                    "type": "integer"
+                },
+                "rev_user_avatar": {
+                    "type": "string"
+                },
+                "rev_user_id": {
+                    "description": "接收人id",
+                    "type": "integer"
+                },
+                "rev_user_nick_name": {
+                    "type": "string"
+                },
+                "send_user_avatar": {
+                    "type": "string"
+                },
+                "send_user_id": {
+                    "description": "发送人id",
+                    "type": "integer"
+                },
+                "send_user_nick_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "message_api.MessageRecordRequest": {
+            "type": "object",
+            "required": [
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "message_api.MessageRequest": {
+            "type": "object",
+            "required": [
+                "content",
+                "rev_user_id",
+                "send_user_id"
+            ],
+            "properties": {
+                "content": {
+                    "description": "消息内容",
+                    "type": "string"
+                },
+                "rev_user_id": {
+                    "description": "接收人id",
+                    "type": "integer"
+                },
+                "send_user_id": {
+                    "description": "发送人id",
+                    "type": "integer"
+                }
+            }
+        },
         "models.AdvertModel": {
             "type": "object",
             "properties": {
@@ -2336,6 +2620,47 @@ const docTemplate = `{
                 }
             }
         },
+        "models.MessageModel": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "消息内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "is_read": {
+                    "description": "接收方是否查看",
+                    "type": "boolean"
+                },
+                "rev_user_avatar": {
+                    "type": "string"
+                },
+                "rev_user_id": {
+                    "description": "接收人id",
+                    "type": "integer"
+                },
+                "rev_user_nick_name": {
+                    "type": "string"
+                },
+                "send_user_avatar": {
+                    "type": "string"
+                },
+                "send_user_id": {
+                    "description": "发送人id",
+                    "type": "integer"
+                },
+                "send_user_nick_name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.RemoveRequest": {
             "type": "object",
             "properties": {
@@ -2404,6 +2729,23 @@ const docTemplate = `{
                 },
                 "user_name": {
                     "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "redis_ser.NewData": {
+            "type": "object",
+            "properties": {
+                "hotValue": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -2504,6 +2846,17 @@ const docTemplate = `{
                 },
                 "list": {
                     "$ref": "#/definitions/models.FullTextModel"
+                }
+            }
+        },
+        "res.ListResponse-models_MessageModel": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/models.MessageModel"
                 }
             }
         },

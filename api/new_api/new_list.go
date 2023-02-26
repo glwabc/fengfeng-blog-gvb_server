@@ -32,6 +32,13 @@ type NewResponse struct {
 const newAPI = "https://api.codelife.cc/api/top/list"
 const timeout = 2 * time.Second
 
+// NewListView 新闻列表
+// @Tags 新闻管理
+// @Summary 新闻列表
+// @Description 新闻列表
+// @Router /api/news [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=[]redis_ser.NewData}
 func (NewApi) NewListView(c *gin.Context) {
 	var cr params
 	var headers header

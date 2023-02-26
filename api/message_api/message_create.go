@@ -14,6 +14,13 @@ type MessageRequest struct {
 }
 
 // MessageCreateView 发布消息
+// @Tags 消息管理
+// @Summary 发布消息
+// @Description 发布消息
+// @Param data body MessageRequest  true  "查询参数"
+// @Router /api/messages [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (MessageApi) MessageCreateView(c *gin.Context) {
 	// 当前用户发布消息
 	// SendUserID 就是当前登录人的id

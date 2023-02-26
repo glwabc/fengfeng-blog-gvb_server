@@ -7,6 +7,14 @@ import (
 	"gvb_server/service/common"
 )
 
+// MessageListAllView 消息列表
+// @Tags 消息管理
+// @Summary 消息列表
+// @Description 消息列表
+// @Router /api/messages [get]
+// @Param data query models.PageInfo    false  "查询参数"
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.MessageModel]}
 func (MessageApi) MessageListAllView(c *gin.Context) {
 	var cr models.PageInfo
 	if err := c.ShouldBindQuery(&cr); err != nil {
@@ -16,6 +24,5 @@ func (MessageApi) MessageListAllView(c *gin.Context) {
 	list, count, _ := common.ComList(models.MessageModel{}, common.Option{
 		PageInfo: cr,
 	})
-	// 需要展示这个标签下文章的数量
 	res.OkWithList(list, count, c)
 }
