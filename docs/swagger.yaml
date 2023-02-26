@@ -242,6 +242,36 @@ definitions:
     - SignQQ
     - SignGitee
     - SignEmail
+  data_api.DataSumResponse:
+    properties:
+      article_count:
+        type: integer
+      chat_group_count:
+        type: integer
+      message_count:
+        type: integer
+      now_login_count:
+        type: integer
+      now_sign_count:
+        type: integer
+      user_count:
+        type: integer
+    type: object
+  data_api.DateCountResponse:
+    properties:
+      date_list:
+        items:
+          type: string
+        type: array
+      login_data:
+        items:
+          type: integer
+        type: array
+      sign_data:
+        items:
+          type: integer
+        type: array
+    type: object
   images_api.ImageResponse:
     properties:
       id:
@@ -252,6 +282,16 @@ definitions:
       path:
         description: 图片路径
         type: string
+    type: object
+  images_api.ImageUpdateRequest:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    required:
+    - id
+    - name
     type: object
   models.AdvertModel:
     properties:
@@ -1088,6 +1128,71 @@ paths:
       summary: 评论点赞
       tags:
       - 评论管理
+  /api/data_login:
+    get:
+      description: 七日登录，注册数据
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data_api.DateCountResponse'
+                  type: array
+              type: object
+      summary: 七日登录，注册数据
+      tags:
+      - 数据管理
+  /api/data_sum:
+    get:
+      description: 求和数据
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data_api.DataSumResponse'
+                  type: array
+              type: object
+      summary: 求和数据
+      tags:
+      - 数据管理
+  /api/digg/article:
+    post:
+      description: 文章点赞
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.ESIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 文章点赞
+      tags:
+      - 图片管理
   /api/image_names:
     get:
       description: 图片名称列表
@@ -1137,6 +1242,23 @@ paths:
                   $ref: '#/definitions/res.ListResponse-models_BannerModel'
               type: object
       summary: 图片列表
+      tags:
+      - 图片管理
+    put:
+      description: 上传多个图片，返回图片的url
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 上传多个图片，返回图片的url
       tags:
       - 图片管理
 swagger: "2.0"

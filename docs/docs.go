@@ -897,6 +897,119 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/data_login": {
+            "get": {
+                "description": "七日登录，注册数据",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "数据管理"
+                ],
+                "summary": "七日登录，注册数据",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data_api.DateCountResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/data_sum": {
+            "get": {
+                "description": "求和数据",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "数据管理"
+                ],
+                "summary": "求和数据",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data_api.DataSumResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/digg/article": {
+            "post": {
+                "description": "文章点赞",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "文章点赞",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ESIDRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/image_names": {
             "get": {
                 "description": "图片名称列表",
@@ -977,6 +1090,36 @@ const docTemplate = `{
                                     "properties": {
                                         "data": {
                                             "$ref": "#/definitions/res.ListResponse-models_BannerModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "上传多个图片，返回图片的url",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "上传多个图片，返回图片的url",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
                                         }
                                     }
                                 }
@@ -1324,6 +1467,52 @@ const docTemplate = `{
                 "SignEmail"
             ]
         },
+        "data_api.DataSumResponse": {
+            "type": "object",
+            "properties": {
+                "article_count": {
+                    "type": "integer"
+                },
+                "chat_group_count": {
+                    "type": "integer"
+                },
+                "message_count": {
+                    "type": "integer"
+                },
+                "now_login_count": {
+                    "type": "integer"
+                },
+                "now_sign_count": {
+                    "type": "integer"
+                },
+                "user_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data_api.DateCountResponse": {
+            "type": "object",
+            "properties": {
+                "date_list": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "login_data": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "sign_data": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
         "images_api.ImageResponse": {
             "type": "object",
             "properties": {
@@ -1336,6 +1525,21 @@ const docTemplate = `{
                 },
                 "path": {
                     "description": "图片路径",
+                    "type": "string"
+                }
+            }
+        },
+        "images_api.ImageUpdateRequest": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
                     "type": "string"
                 }
             }

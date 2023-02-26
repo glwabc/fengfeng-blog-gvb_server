@@ -10,7 +10,13 @@ import (
 	"os"
 )
 
-// ImageUploadView 上传单个图片，返回图片的url
+// ImageUploadView 上传多个图片，返回图片的url
+// @Tags 图片管理
+// @Summary 上传多个图片，返回图片的url
+// @Description 上传多个图片，返回图片的url
+// @Router /api/images [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (ImagesApi) ImageUploadView(c *gin.Context) {
 	// 上传多个图片
 	form, err := c.MultipartForm()

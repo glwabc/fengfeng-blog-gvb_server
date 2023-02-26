@@ -8,6 +8,14 @@ import (
 	"gvb_server/models/res"
 )
 
+// ImageRemoveView 文章点赞
+// @Tags 图片管理
+// @Summary 文章点赞
+// @Description 文章点赞
+// @Param data body models.ESIDRequest   true  "表示多个参数"
+// @Router /api/digg/article [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (ImagesApi) ImageRemoveView(c *gin.Context) {
 	var cr models.RemoveRequest
 	err := c.ShouldBindJSON(&cr)

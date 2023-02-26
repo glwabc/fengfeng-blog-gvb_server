@@ -7,6 +7,14 @@ import (
 	"gvb_server/service/redis_ser"
 )
 
+// DiggArticleView 文章点赞
+// @Tags 文章管理
+// @Summary 文章点赞
+// @Description 文章点赞
+// @Param data body models.ESIDRequest   true  "表示多个参数"
+// @Router /api/digg/article [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (DiggApi) DiggArticleView(c *gin.Context) {
 	var cr models.ESIDRequest
 	err := c.ShouldBindJSON(&cr)
