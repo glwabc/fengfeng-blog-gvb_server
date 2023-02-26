@@ -13,6 +13,14 @@ import (
 	"gvb_server/utils/jwts"
 )
 
+// ArticleCollBatchRemoveView 用户取消收藏文章
+// @Tags 文章管理
+// @Summary 用户取消收藏文章
+// @Description 用户取消收藏文章
+// @Param data body models.ESIDListRequest   true  "表示多个参数"
+// @Router /api/articles/collects [delete]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (ArticleApi) ArticleCollBatchRemoveView(c *gin.Context) {
 	var cr models.ESIDListRequest
 

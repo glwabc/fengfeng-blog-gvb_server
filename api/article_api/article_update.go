@@ -23,6 +23,14 @@ type ArticleUpdateRequest struct {
 	ID       string   `json:"id"`
 }
 
+// ArticleUpdateView 文章更新
+// @Tags 文章管理
+// @Summary 文章更新
+// @Description 文章更新
+// @Param data body ArticleUpdateRequest   false  "传什么参数更新什么，不传不更"
+// @Router /api/articles [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 	var cr ArticleUpdateRequest
 	err := c.ShouldBindJSON(&cr)
