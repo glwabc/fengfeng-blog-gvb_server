@@ -641,6 +641,255 @@
                 }
             }
         },
+        "/api/chat_groups": {
+            "get": {
+                "description": "群聊接口",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "聊天管理"
+                ],
+                "summary": "群聊接口 websocket",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/chat_api.GroupRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chat_groups_records": {
+            "get": {
+                "description": "群聊聊天记录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "聊天管理"
+                ],
+                "summary": "群聊聊天记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_ChatModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comments": {
+            "get": {
+                "description": "评论列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "评论管理"
+                ],
+                "summary": "评论列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "articleID",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_CommentModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "发布评论",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "评论管理"
+                ],
+                "summary": "发布评论",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment_api.CommentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comments/:id": {
+            "get": {
+                "description": "评论点赞",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "评论管理"
+                ],
+                "summary": "评论点赞",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "删除评论",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "评论管理"
+                ],
+                "summary": "删除评论",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment_api.CommentIDRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/image_names": {
             "get": {
                 "description": "图片名称列表",
@@ -974,6 +1223,46 @@
                 }
             }
         },
+        "chat_api.GroupRequest": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "聊天的内容",
+                    "type": "string"
+                },
+                "msg_type": {
+                    "description": "聊天类型",
+                    "type": "integer"
+                }
+            }
+        },
+        "comment_api.CommentIDRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "comment_api.CommentRequest": {
+            "type": "object",
+            "required": [
+                "article_id",
+                "content"
+            ],
+            "properties": {
+                "article_id": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "parent_comment_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                }
+            }
+        },
         "ctype.ImageType": {
             "type": "integer",
             "enum": [
@@ -987,6 +1276,45 @@
             "x-enum-varnames": [
                 "Local",
                 "QiNiu"
+            ]
+        },
+        "ctype.Role": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "x-enum-comments": {
+                "PermissionAdmin": "管理员",
+                "PermissionDisableUser": "被禁用的用户",
+                "PermissionUser": "普通登录人",
+                "PermissionVisitor": "游客"
+            },
+            "x-enum-varnames": [
+                "PermissionAdmin",
+                "PermissionUser",
+                "PermissionVisitor",
+                "PermissionDisableUser"
+            ]
+        },
+        "ctype.SignStatus": {
+            "type": "integer",
+            "enum": [
+                1,
+                2,
+                3
+            ],
+            "x-enum-comments": {
+                "SignEmail": "邮箱",
+                "SignGitee": "gitee",
+                "SignQQ": "QQ"
+            },
+            "x-enum-varnames": [
+                "SignQQ",
+                "SignGitee",
+                "SignEmail"
             ]
         },
         "images_api.ImageResponse": {
@@ -1155,6 +1483,101 @@
                 }
             }
         },
+        "models.ChatModel": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "is_group": {
+                    "description": "是否是群组消息",
+                    "type": "boolean"
+                },
+                "msg_type": {
+                    "type": "integer"
+                },
+                "nick_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CommentModel": {
+            "type": "object",
+            "properties": {
+                "article_id": {
+                    "description": "文章id",
+                    "type": "string"
+                },
+                "comment_count": {
+                    "description": "子评论数",
+                    "type": "integer"
+                },
+                "comment_model": {
+                    "description": "父级评论",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.CommentModel"
+                        }
+                    ]
+                },
+                "content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "digg_count": {
+                    "description": "点赞数",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "parent_comment_id": {
+                    "description": "父评论id",
+                    "type": "integer"
+                },
+                "sub_comments": {
+                    "description": "子评论列表",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CommentModel"
+                    }
+                },
+                "user": {
+                    "description": "关联的用户",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/models.UserModel"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "评论的用户",
+                    "type": "integer"
+                }
+            }
+        },
         "models.ESIDListRequest": {
             "type": "object",
             "required": [
@@ -1213,6 +1636,67 @@
                 }
             }
         },
+        "models.UserModel": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "description": "地址",
+                    "type": "string"
+                },
+                "avatar": {
+                    "description": "头像id",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "ip": {
+                    "description": "ip地址",
+                    "type": "string"
+                },
+                "nick_name": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "role": {
+                    "description": "权限  1 管理员  2 普通用户  3 游客",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ctype.Role"
+                        }
+                    ]
+                },
+                "sign_status": {
+                    "description": "注册来源",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ctype.SignStatus"
+                        }
+                    ]
+                },
+                "tel": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "token": {
+                    "description": "其他平台的唯一id",
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
         "res.ListResponse-article_api_CollResponse": {
             "type": "object",
             "properties": {
@@ -1265,6 +1749,28 @@
                 },
                 "list": {
                     "$ref": "#/definitions/models.BannerModel"
+                }
+            }
+        },
+        "res.ListResponse-models_ChatModel": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/models.ChatModel"
+                }
+            }
+        },
+        "res.ListResponse-models_CommentModel": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/models.CommentModel"
                 }
             }
         },

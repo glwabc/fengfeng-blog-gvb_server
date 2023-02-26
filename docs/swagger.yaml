@@ -173,6 +173,33 @@ definitions:
       tag:
         type: string
     type: object
+  chat_api.GroupRequest:
+    properties:
+      content:
+        description: 聊天的内容
+        type: string
+      msg_type:
+        description: 聊天类型
+        type: integer
+    type: object
+  comment_api.CommentIDRequest:
+    properties:
+      id:
+        type: integer
+    type: object
+  comment_api.CommentRequest:
+    properties:
+      article_id:
+        type: string
+      content:
+        type: string
+      parent_comment_id:
+        description: 父评论id
+        type: integer
+    required:
+    - article_id
+    - content
+    type: object
   ctype.ImageType:
     enum:
     - 1
@@ -184,6 +211,37 @@ definitions:
     x-enum-varnames:
     - Local
     - QiNiu
+  ctype.Role:
+    enum:
+    - 1
+    - 2
+    - 3
+    - 4
+    type: integer
+    x-enum-comments:
+      PermissionAdmin: 管理员
+      PermissionDisableUser: 被禁用的用户
+      PermissionUser: 普通登录人
+      PermissionVisitor: 游客
+    x-enum-varnames:
+    - PermissionAdmin
+    - PermissionUser
+    - PermissionVisitor
+    - PermissionDisableUser
+  ctype.SignStatus:
+    enum:
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-comments:
+      SignEmail: 邮箱
+      SignGitee: gitee
+      SignQQ: QQ
+    x-enum-varnames:
+    - SignQQ
+    - SignGitee
+    - SignEmail
   images_api.ImageResponse:
     properties:
       id:
@@ -303,6 +361,70 @@ definitions:
         description: 图片路径
         type: string
     type: object
+  models.ChatModel:
+    properties:
+      addr:
+        type: string
+      avatar:
+        type: string
+      content:
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      ip:
+        type: string
+      is_group:
+        description: 是否是群组消息
+        type: boolean
+      msg_type:
+        type: integer
+      nick_name:
+        type: string
+    type: object
+  models.CommentModel:
+    properties:
+      article_id:
+        description: 文章id
+        type: string
+      comment_count:
+        description: 子评论数
+        type: integer
+      comment_model:
+        allOf:
+        - $ref: '#/definitions/models.CommentModel'
+        description: 父级评论
+      content:
+        description: 评论内容
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      digg_count:
+        description: 点赞数
+        type: integer
+      id:
+        description: 主键ID
+        type: integer
+      parent_comment_id:
+        description: 父评论id
+        type: integer
+      sub_comments:
+        description: 子评论列表
+        items:
+          $ref: '#/definitions/models.CommentModel'
+        type: array
+      user:
+        allOf:
+        - $ref: '#/definitions/models.UserModel'
+        description: 关联的用户
+      user_id:
+        description: 评论的用户
+        type: integer
+    type: object
   models.ESIDListRequest:
     properties:
       id_list:
@@ -342,6 +464,47 @@ definitions:
           type: integer
         type: array
     type: object
+  models.UserModel:
+    properties:
+      addr:
+        description: 地址
+        type: string
+      avatar:
+        description: 头像id
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      ip:
+        description: ip地址
+        type: string
+      nick_name:
+        description: 昵称
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        description: 权限  1 管理员  2 普通用户  3 游客
+      sign_status:
+        allOf:
+        - $ref: '#/definitions/ctype.SignStatus'
+        description: 注册来源
+      tel:
+        description: 手机号
+        type: string
+      token:
+        description: 其他平台的唯一id
+        type: string
+      user_name:
+        description: 用户名
+        type: string
+    type: object
   res.ListResponse-article_api_CollResponse:
     properties:
       count:
@@ -376,6 +539,20 @@ definitions:
         type: integer
       list:
         $ref: '#/definitions/models.BannerModel'
+    type: object
+  res.ListResponse-models_ChatModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.ChatModel'
+    type: object
+  res.ListResponse-models_CommentModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.CommentModel'
     type: object
   res.ListResponse-models_FullTextModel:
     properties:
@@ -768,6 +945,149 @@ paths:
       summary: 全文搜索列表
       tags:
       - 文章管理
+  /api/chat_groups:
+    get:
+      description: 群聊接口
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/chat_api.GroupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 群聊接口 websocket
+      tags:
+      - 聊天管理
+  /api/chat_groups_records:
+    get:
+      description: 群聊聊天记录
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_ChatModel'
+              type: object
+      summary: 群聊聊天记录
+      tags:
+      - 聊天管理
+  /api/comments:
+    get:
+      description: 评论列表
+      parameters:
+      - in: query
+        name: articleID
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_CommentModel'
+              type: object
+      summary: 评论列表
+      tags:
+      - 评论管理
+    post:
+      description: 发布评论
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/comment_api.CommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 发布评论
+      tags:
+      - 评论管理
+  /api/comments/:id:
+    delete:
+      description: 删除评论
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/comment_api.CommentIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除评论
+      tags:
+      - 评论管理
+    get:
+      description: 评论点赞
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 评论点赞
+      tags:
+      - 评论管理
   /api/image_names:
     get:
       description: 图片名称列表
