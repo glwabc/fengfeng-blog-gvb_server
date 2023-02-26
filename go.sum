@@ -16,6 +16,10 @@ github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdko
 github.com/agiledragon/gomonkey/v2 v2.3.1/go.mod h1:ap1AmDzcVOAz1YpeJ3TCzIgstoaWLA6jbbgxfB4w2iY=
 github.com/andybalholm/cascadia v1.3.1 h1:nhxRkql1kdYCc8Snf7D5/D3spOX+dBgjA6u8x004T2c=
 github.com/andybalholm/cascadia v1.3.1/go.mod h1:R4bJ1UQfqADjvDa4P6HZHLh/3OxWWEqc0Sk8XGwHqvA=
+github.com/cc14514/go-geoip2 v0.0.0-20190105051856-0a1854480a11 h1:smFM+R9NconJ5FHiMyQsq/fIjtYE0jxVJwX8ZxAmWF0=
+github.com/cc14514/go-geoip2 v0.0.0-20190105051856-0a1854480a11/go.mod h1:gC4wJD6T+unJtW078G4ugNE2UNbk4/oYwQKteOaybQE=
+github.com/cc14514/go-geoip2-db v0.0.0-20190106063142-7b6408a9812a h1:tc57+CsbpTjJLvcp2AyVAvaYmS0FFxSaRCQeUa4jcHg=
+github.com/cc14514/go-geoip2-db v0.0.0-20190106063142-7b6408a9812a/go.mod h1:MBxCt6+ltWZRodx2FgXuQm7LQweWyPofmXsuhX3D6Zo=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -148,6 +152,8 @@ github.com/qiniu/dyn v1.3.0/go.mod h1:E8oERcm8TtwJiZvkQPbcAh0RL8jO1G0VXJMW3FAWdk
 github.com/qiniu/go-sdk/v7 v7.14.0 h1:6icihMTKHoKMmeU1mqtIoHUv7c1LrLjYm8wTQaYDqmw=
 github.com/qiniu/go-sdk/v7 v7.14.0/go.mod h1:btsaOc8CA3hdVloULfFdDgDc+g4f3TDZEFsDY0BLE+w=
 github.com/qiniu/x v1.10.5/go.mod h1:03Ni9tj+N2h2aKnAz+6N0Xfl8FwMEDRC2PAlxekASDs=
+github.com/rakyll/statik v0.1.7 h1:OF3QCZUuyPxuGEP7B4ypUa7sB/iHtqOTDYZXGM8KOdQ=
+github.com/rakyll/statik v0.1.7/go.mod h1:AlZONWzMtEnMs7W4e/1LURLiI49pIMmp6V9Unghqrcc=
 github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rogpeppe/go-internal v1.8.0/go.mod h1:WmiCO8CzOY8rg0OYDC4/i/2WRWAB6poM+XZ2dLUbcbE=
 github.com/russross/blackfriday v1.6.0 h1:KqfZb0pUVN2lYqZUYRddxF4OR8ZMURnJIG5Y3VRLtww=
