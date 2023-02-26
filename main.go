@@ -39,7 +39,8 @@ func main() {
 	router := routers.InitRouter()
 
 	addr := global.Config.System.Addr()
-	global.Log.Infof("gvb_server运行在： %s", addr)
+	global.Log.Infof("gvb_server 运行在： %s", addr)
+	global.Log.Infof("gvb_server api文档 运行在： http://%s/swagger/index.html#", addr)
 	err := router.Run(addr)
 	if err != nil {
 		global.Log.Fatalf(err.Error())

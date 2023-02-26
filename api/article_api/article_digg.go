@@ -1,4 +1,4 @@
-package digg_api
+package article_api
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,7 +7,7 @@ import (
 	"gvb_server/service/redis_ser"
 )
 
-// DiggArticleView 文章点赞
+// ArticleDiggView 文章点赞
 // @Tags 文章管理
 // @Summary 文章点赞
 // @Description 文章点赞
@@ -15,7 +15,7 @@ import (
 // @Router /api/digg/article [post]
 // @Produce json
 // @Success 200 {object} res.Response{}
-func (DiggApi) DiggArticleView(c *gin.Context) {
+func (ArticleApi) ArticleDiggView(c *gin.Context) {
 	var cr models.ESIDRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {
