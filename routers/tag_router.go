@@ -1,11 +1,14 @@
 package routers
 
-import "gvb_server/api"
+import (
+	"gvb_server/api"
+	"gvb_server/middleware"
+)
 
 func (router RouterGroup) TagRouter() {
 	app := api.ApiGroupApp.TagApi
-	router.POST("tags", app.TagCreateView)
+	router.POST("tags", middleware.JwtAdmin(), app.TagCreateView)
 	router.GET("tags", app.TagListView)
-	router.PUT("tags/:id", app.TagUpdateView)
-	router.DELETE("tags", app.TagRemoveView)
+	router.PUT("tags/:id", middleware.JwtAdmin(), app.TagUpdateView)
+	router.DELETE("tags", middleware.JwtAdmin(), app.TagRemoveView)
 }
