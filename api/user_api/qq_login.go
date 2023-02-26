@@ -13,6 +13,14 @@ import (
 	"gvb_server/utils/random"
 )
 
+// QQLoginView qq登录，返回token，用户信息需要从token中解码
+// @Tags 用户管理
+// @Summary qq登录
+// @Description qq登录，返回token，用户信息需要从token中解码
+// @Param code query string  true  "qq登录的code"
+// @Router /api/login [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (UserApi) QQLoginView(c *gin.Context) {
 	code := c.Query("code")
 	if code == "" {

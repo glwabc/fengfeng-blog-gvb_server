@@ -707,6 +707,18 @@ definitions:
           type: integer
         type: array
     type: object
+  models.TagModel:
+    properties:
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      title:
+        description: 标签的名称
+        type: string
+    type: object
   models.UserModel:
     properties:
       addr:
@@ -829,6 +841,20 @@ definitions:
       list:
         $ref: '#/definitions/models.MessageModel'
     type: object
+  res.ListResponse-models_TagModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.TagModel'
+    type: object
+  res.ListResponse-models_UserModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.UserModel'
+    type: object
   res.Response:
     properties:
       code:
@@ -836,6 +862,87 @@ definitions:
       data: {}
       msg:
         type: string
+    type: object
+  tag_api.TagRequest:
+    properties:
+      title:
+        description: 显示的标题
+        type: string
+    required:
+    - title
+    type: object
+  user_api.BindEmailRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    type: object
+  user_api.EmailLoginRequest:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  user_api.UpdatePasswordRequest:
+    properties:
+      old_pwd:
+        description: 旧密码
+        type: string
+      pwd:
+        description: 新密码
+        type: string
+    required:
+    - old_pwd
+    - pwd
+    type: object
+  user_api.UserCreateRequest:
+    properties:
+      nick_name:
+        description: 昵称
+        type: string
+      password:
+        description: 密码
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        description: 权限  1 管理员  2 普通用户  3 游客
+      user_name:
+        description: 用户名
+        type: string
+    required:
+    - nick_name
+    - password
+    - role
+    - user_name
+    type: object
+  user_api.UserRole:
+    properties:
+      nick_name:
+        description: 防止用户昵称非法，管理员有能力修改
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      user_id:
+        type: integer
+    required:
+    - role
+    - user_id
     type: object
 host: 127.0.0.01:8080
 info:
@@ -1421,6 +1528,31 @@ paths:
       summary: 文章点赞
       tags:
       - 图片管理
+  /api/email_login:
+    post:
+      description: 邮箱登录，返回token，用户信息需要从token中解码
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.EmailLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 邮箱登录
+      tags:
+      - 用户管理
   /api/image_names:
     get:
       description: 图片名称列表
@@ -1489,6 +1621,49 @@ paths:
       summary: 上传多个图片，返回图片的url
       tags:
       - 图片管理
+  /api/login:
+    post:
+      description: qq登录，返回token，用户信息需要从token中解码
+      parameters:
+      - description: qq登录的code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: qq登录
+      tags:
+      - 用户管理
+  /api/logout:
+    post:
+      description: 用户注销
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 用户注销
+      tags:
+      - 用户管理
   /api/logs:
     delete:
       description: 删除日志
@@ -1801,4 +1976,222 @@ paths:
       summary: 修改某一项的配置信息
       tags:
       - 系统管理
+  /api/tags:
+    delete:
+      description: 标签删除
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 标签删除
+      tags:
+      - 标签管理
+    get:
+      description: 标签列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_TagModel'
+              type: object
+      summary: 标签列表
+      tags:
+      - 标签管理
+    post:
+      description: 发布标签
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 发布标签
+      tags:
+      - 标签管理
+  /api/tags/:id:
+    put:
+      description: 更新标签
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 更新标签
+      tags:
+      - 标签管理
+  /api/user_bind_email:
+    post:
+      description: 用户绑定邮箱
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.BindEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 用户绑定邮箱
+      tags:
+      - 用户管理
+  /api/user_password:
+    put:
+      description: 修改登录人的密码
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UpdatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 修改登录人的密码
+      tags:
+      - 用户管理
+  /api/user_role:
+    put:
+      description: 用户权限变更
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 用户权限变更
+      tags:
+      - 用户管理
+  /api/users:
+    delete:
+      description: 删除用户
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 删除用户
+      tags:
+      - 用户管理
+    get:
+      description: 用户列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_UserModel'
+              type: object
+      summary: 用户列表
+      tags:
+      - 用户管理
+    post:
+      description: 创建用户
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 创建用户
+      tags:
+      - 用户管理
 swagger: "2.0"

@@ -1010,6 +1010,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/email_login": {
+            "post": {
+                "description": "邮箱登录，返回token，用户信息需要从token中解码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "邮箱登录",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.EmailLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/image_names": {
             "get": {
                 "description": "图片名称列表",
@@ -1124,6 +1167,76 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "description": "qq登录，返回token，用户信息需要从token中解码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "qq登录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "qq登录的code",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "description": "用户注销",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户注销",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
                         }
                     }
                 }
@@ -1653,6 +1766,354 @@ const docTemplate = `{
                     "系统管理"
                 ],
                 "summary": "修改某一项的配置信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tags": {
+            "get": {
+                "description": "标签列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "标签管理"
+                ],
+                "summary": "标签列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_TagModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "发布标签",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "标签管理"
+                ],
+                "summary": "发布标签",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tag_api.TagRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "标签删除",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "标签管理"
+                ],
+                "summary": "标签删除",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RemoveRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tags/:id": {
+            "put": {
+                "description": "更新标签",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "标签管理"
+                ],
+                "summary": "更新标签",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/tag_api.TagRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_bind_email": {
+            "post": {
+                "description": "用户绑定邮箱",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户绑定邮箱",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.BindEmailRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_password": {
+            "put": {
+                "description": "修改登录人的密码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "修改登录人的密码",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UpdatePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_role": {
+            "put": {
+                "description": "用户权限变更",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户权限变更",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "description": "用户列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_UserModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "创建用户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "创建用户",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "删除用户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "删除用户",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RemoveRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2672,6 +3133,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.TagModel": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "标签的名称",
+                    "type": "string"
+                }
+            }
+        },
         "models.UserModel": {
             "type": "object",
             "properties": {
@@ -2860,6 +3338,28 @@ const docTemplate = `{
                 }
             }
         },
+        "res.ListResponse-models_TagModel": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/models.TagModel"
+                }
+            }
+        },
+        "res.ListResponse-models_UserModel": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/models.UserModel"
+                }
+            }
+        },
         "res.Response": {
             "type": "object",
             "properties": {
@@ -2869,6 +3369,127 @@ const docTemplate = `{
                 "data": {},
                 "msg": {
                     "type": "string"
+                }
+            }
+        },
+        "tag_api.TagRequest": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "description": "显示的标题",
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.BindEmailRequest": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.EmailLoginRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "user_name"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.UpdatePasswordRequest": {
+            "type": "object",
+            "required": [
+                "old_pwd",
+                "pwd"
+            ],
+            "properties": {
+                "old_pwd": {
+                    "description": "旧密码",
+                    "type": "string"
+                },
+                "pwd": {
+                    "description": "新密码",
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.UserCreateRequest": {
+            "type": "object",
+            "required": [
+                "nick_name",
+                "password",
+                "role",
+                "user_name"
+            ],
+            "properties": {
+                "nick_name": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "role": {
+                    "description": "权限  1 管理员  2 普通用户  3 游客",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ctype.Role"
+                        }
+                    ]
+                },
+                "user_name": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.UserRole": {
+            "type": "object",
+            "required": [
+                "role",
+                "user_id"
+            ],
+            "properties": {
+                "nick_name": {
+                    "description": "防止用户昵称非法，管理员有能力修改",
+                    "type": "string"
+                },
+                "role": {
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/ctype.Role"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         }
