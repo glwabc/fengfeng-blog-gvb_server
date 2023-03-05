@@ -142,7 +142,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/adverts/:id": {
+        "/api/adverts/{id}": {
             "put": {
                 "description": "更新广告",
                 "produces": [
@@ -167,6 +167,13 @@ const docTemplate = `{
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -341,38 +348,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/articles/:id": {
-            "get": {
-                "description": "文章详情",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章管理"
-                ],
-                "summary": "文章详情",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/res.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.ArticleModel"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }
@@ -639,6 +614,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/articles/{id}": {
+            "get": {
+                "description": "文章详情",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "文章详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.ArticleModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/chat_groups": {
             "get": {
                 "description": "群聊接口",
@@ -798,7 +814,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comments/:id": {
+        "/api/comments/{id}": {
             "get": {
                 "description": "评论点赞",
                 "produces": [
@@ -808,6 +824,15 @@ const docTemplate = `{
                     "评论管理"
                 ],
                 "summary": "评论点赞",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -841,6 +866,13 @@ const docTemplate = `{
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -931,7 +963,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "图片管理"
+                    "文章管理"
                 ],
                 "summary": "文章点赞",
                 "parameters": [
@@ -943,13 +975,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -1119,6 +1144,9 @@ const docTemplate = `{
             },
             "post": {
                 "description": "上传多个图片，返回图片的url",
+                "consumes": [
+                    "multipart/form-data"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -1127,6 +1155,49 @@ const docTemplate = `{
                 ],
                 "summary": "上传多个图片，返回图片的url",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "文件上传",
+                        "name": "images",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "删除图片",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "删除图片",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RemoveRequest"
+                        }
+                    },
                     {
                         "type": "string",
                         "description": "token",
@@ -1362,42 +1433,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "更新菜单",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "菜单管理"
-                ],
-                "summary": "更新菜单",
-                "parameters": [
-                    {
-                        "description": "查询参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/menu_api.MenuRequest"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.Response"
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "发布菜单",
                 "produces": [
@@ -1471,7 +1506,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/menus/:id": {
+        "/api/menus/{id}": {
             "get": {
                 "description": "菜单详情",
                 "produces": [
@@ -1481,6 +1516,15 @@ const docTemplate = `{
                     "菜单管理"
                 ],
                 "summary": "菜单详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1498,6 +1542,49 @@ const docTemplate = `{
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "更新菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单管理"
+                ],
+                "summary": "更新菜单",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/menu_api.MenuRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
                         }
                     }
                 }
@@ -1663,6 +1750,38 @@ const docTemplate = `{
                     "新闻管理"
                 ],
                 "summary": "新闻列表",
+                "parameters": [
+                    {
+                        "description": "新闻参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/new_api.params"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "version",
+                        "name": "version",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User-Agent",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "signaturekey",
+                        "name": "signaturekey",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1688,7 +1807,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/settings/:name": {
+        "/api/settings/{name}": {
             "get": {
                 "description": "显示某一项的配置信息",
                 "produces": [
@@ -1698,6 +1817,15 @@ const docTemplate = `{
                     "系统管理"
                 ],
                 "summary": "显示某一项的配置信息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1717,6 +1845,13 @@ const docTemplate = `{
                 ],
                 "summary": "修改某一项的配置信息",
                 "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "token",
@@ -1861,7 +1996,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/tags/:id": {
+        "/api/tags/{id}": {
             "put": {
                 "description": "更新标签",
                 "produces": [
@@ -1886,6 +2021,13 @@ const docTemplate = `{
                         "description": "token",
                         "name": "token",
                         "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -2043,6 +2185,13 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -3223,6 +3372,17 @@ const docTemplate = `{
                 "user_name": {
                     "description": "用户名",
                     "type": "string"
+                }
+            }
+        },
+        "new_api.params": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer"
                 }
             }
         },

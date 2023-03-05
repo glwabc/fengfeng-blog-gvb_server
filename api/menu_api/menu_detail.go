@@ -11,7 +11,8 @@ import (
 // @Tags 菜单管理
 // @Summary 菜单详情
 // @Description 菜单详情
-// @Router /api/menus/:id [get]
+// @Param id path int  true  "id"
+// @Router /api/menus/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=MenuResponse}
 func (MenuApi) MenuDetailView(c *gin.Context) {

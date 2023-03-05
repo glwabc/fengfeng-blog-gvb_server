@@ -12,7 +12,8 @@ import (
 // @Tags 文章管理
 // @Summary 文章详情
 // @Description 文章详情
-// @Router /api/articles/:id [get]
+// @Param id path int  true  "id"
+// @Router /api/articles/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=models.ArticleModel}
 func (ArticleApi) ArticleDetailView(c *gin.Context) {

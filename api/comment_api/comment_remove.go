@@ -17,7 +17,8 @@ import (
 // @Description 删除评论
 // @Param data body CommentIDRequest   true  "表示多个参数"
 // @Param token header string  true  "token"
-// @Router /api/comments/:id [delete]
+// @Param id path int  true  "id"
+// @Router /api/comments/{id} [delete]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (CommentApi) CommentRemoveView(c *gin.Context) {

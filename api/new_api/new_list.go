@@ -36,6 +36,10 @@ const timeout = 2 * time.Second
 // @Tags 新闻管理
 // @Summary 新闻列表
 // @Description 新闻列表
+// @Param data body params true "新闻参数"
+// @Param version header string true "version"
+// @Param User-Agent header string true "User-Agent"
+// @Param signaturekey header string true "signaturekey"
 // @Router /api/news [post]
 // @Produce json
 // @Success 200 {object} res.Response{data=[]redis_ser.NewData}

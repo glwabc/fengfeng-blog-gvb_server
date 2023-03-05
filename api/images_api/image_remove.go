@@ -8,13 +8,13 @@ import (
 	"gvb_server/models/res"
 )
 
-// ImageRemoveView 文章点赞
+// ImageRemoveView 删除图片
 // @Tags 图片管理
-// @Summary 文章点赞
-// @Description 文章点赞
-// @Param data body models.ESIDRequest   true  "表示多个参数"
+// @Summary 删除图片
+// @Description 删除图片
+// @Param data body models.RemoveRequest   true  "表示多个参数"
 // @Param token header string  true  "token"
-// @Router /api/digg/article [post]
+// @Router /api/images [delete]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (ImagesApi) ImageRemoveView(c *gin.Context) {

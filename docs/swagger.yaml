@@ -760,6 +760,13 @@ definitions:
         description: 用户名
         type: string
     type: object
+  new_api.params:
+    properties:
+      id:
+        type: string
+      size:
+        type: integer
+    type: object
   redis_ser.NewData:
     properties:
       hotValue:
@@ -1030,7 +1037,7 @@ paths:
       summary: 创建广告
       tags:
       - 广告管理
-  /api/adverts/:id:
+  /api/adverts/{id}:
     put:
       description: 更新广告
       parameters:
@@ -1045,6 +1052,11 @@ paths:
         name: token
         required: true
         type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1160,9 +1172,15 @@ paths:
       summary: 文章更新
       tags:
       - 文章管理
-  /api/articles/:id:
+  /api/articles/{id}:
     get:
       description: 文章详情
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1431,7 +1449,7 @@ paths:
       summary: 发布评论
       tags:
       - 评论管理
-  /api/comments/:id:
+  /api/comments/{id}:
     delete:
       description: 删除评论
       parameters:
@@ -1446,6 +1464,11 @@ paths:
         name: token
         required: true
         type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1458,6 +1481,12 @@ paths:
       - 评论管理
     get:
       description: 评论点赞
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1518,11 +1547,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.ESIDRequest'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -1532,7 +1556,7 @@ paths:
             $ref: '#/definitions/res.Response'
       summary: 文章点赞
       tags:
-      - 图片管理
+      - 文章管理
   /api/email_login:
     post:
       description: 邮箱登录，返回token，用户信息需要从token中解码
@@ -1574,6 +1598,30 @@ paths:
       tags:
       - 图片管理
   /api/images:
+    delete:
+      description: 删除图片
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 删除图片
+      tags:
+      - 图片管理
     get:
       description: 图片列表
       parameters:
@@ -1605,6 +1653,8 @@ paths:
       tags:
       - 图片管理
     post:
+      consumes:
+      - multipart/form-data
       description: 上传多个图片，返回图片的url
       parameters:
       - description: token
@@ -1612,6 +1662,11 @@ paths:
         name: token
         required: true
         type: string
+      - description: 文件上传
+        in: formData
+        name: images
+        required: true
+        type: file
       produces:
       - application/json
       responses:
@@ -1827,6 +1882,30 @@ paths:
       summary: 发布菜单
       tags:
       - 菜单管理
+  /api/menus/{id}:
+    get:
+      description: 菜单详情
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/menu_api.MenuResponse'
+              type: object
+      summary: 菜单详情
+      tags:
+      - 菜单管理
     put:
       description: 更新菜单
       parameters:
@@ -1841,6 +1920,11 @@ paths:
         name: token
         required: true
         type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1849,24 +1933,6 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 更新菜单
-      tags:
-      - 菜单管理
-  /api/menus/:id:
-    get:
-      description: 菜单详情
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/menu_api.MenuResponse'
-              type: object
-      summary: 菜单详情
       tags:
       - 菜单管理
   /api/messages:
@@ -1964,6 +2030,28 @@ paths:
   /api/news:
     post:
       description: 新闻列表
+      parameters:
+      - description: 新闻参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/new_api.params'
+      - description: version
+        in: header
+        name: version
+        required: true
+        type: string
+      - description: User-Agent
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - description: signaturekey
+        in: header
+        name: signaturekey
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1981,9 +2069,15 @@ paths:
       summary: 新闻列表
       tags:
       - 新闻管理
-  /api/settings/:name:
+  /api/settings/{name}:
     get:
       description: 显示某一项的配置信息
+      parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -1997,6 +2091,11 @@ paths:
     put:
       description: 修改某一项的配置信息
       parameters:
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: integer
       - description: token
         in: header
         name: token
@@ -2091,7 +2190,7 @@ paths:
       summary: 发布标签
       tags:
       - 标签管理
-  /api/tags/:id:
+  /api/tags/{id}:
     put:
       description: 更新标签
       parameters:
@@ -2106,6 +2205,11 @@ paths:
         name: token
         required: true
         type: string
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -2230,6 +2334,11 @@ paths:
         type: integer
       - in: query
         name: sort
+        type: string
+      - description: token
+        in: header
+        name: token
+        required: true
         type: string
       produces:
       - application/json

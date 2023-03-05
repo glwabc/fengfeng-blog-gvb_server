@@ -14,7 +14,8 @@ import (
 // @Description 更新广告
 // @Param data body AdvertRequest    true  "广告的一些参数"
 // @Param token header string  true  "token"
-// @Router /api/adverts/:id [put]
+// @Param id path int  true  "id"
+// @Router /api/adverts/{id} [put]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (AdvertApi) AdvertUpdateView(c *gin.Context) {
