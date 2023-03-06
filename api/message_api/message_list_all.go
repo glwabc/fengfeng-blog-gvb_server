@@ -11,7 +11,7 @@ import (
 // @Tags 消息管理
 // @Summary 消息列表
 // @Description 消息列表
-// @Router /api/messages [get]
+// @Router /api/messages_all [get]
 // @Param token header string  true  "token"
 // @Param data query models.PageInfo    false  "查询参数"
 // @Produce json

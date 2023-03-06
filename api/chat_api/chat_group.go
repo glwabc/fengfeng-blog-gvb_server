@@ -140,6 +140,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				Content:     fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
 				Date:        time.Now(),
 				OnlineCount: len(ConnGroupMap),
+				MsgType:     InRoomMsg,
 			})
 		default:
 			SendMsg(addr, GroupResponse{

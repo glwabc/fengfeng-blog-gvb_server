@@ -13,8 +13,8 @@ type SettingsUri struct {
 // SettingsInfoView 显示某一项的配置信息
 // @Tags 系统管理
 // @Summary 显示某一项的配置信息
-// @Description 显示某一项的配置信息
-// @Param name path int  true  "name"
+// @Description 显示某一项的配置信息  site email qq qiniu jwt
+// @Param name path string  true  "name"
 // @Router /api/settings/{name} [get]
 // @Produce json
 // @Success 200 {object} res.Response{}

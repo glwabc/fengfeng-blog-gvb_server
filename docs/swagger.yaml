@@ -379,7 +379,6 @@ definitions:
         type: string
     required:
     - path
-    - sort
     - title
     type: object
   menu_api.MenuResponse:
@@ -1577,6 +1576,32 @@ paths:
       summary: 邮箱登录
       tags:
       - 用户管理
+  /api/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上上传单个图片，返回图片的url
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 文件上传
+        in: formData
+        name: images
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 上传单个图片，返回图片的url
+      tags:
+      - 图片管理
   /api/image_names:
     get:
       description: 图片名称列表
@@ -1779,6 +1804,10 @@ paths:
       - in: query
         name: sort
         type: string
+      - description: 日志等级
+        in: query
+        name: level
+        type: integer
       produces:
       - application/json
       responses:
@@ -1937,6 +1966,56 @@ paths:
       - 菜单管理
   /api/messages:
     get:
+      description: 用户与其他人的消息列表
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/message_api.Message'
+                  type: array
+              type: object
+      summary: 用户与其他人的消息列表
+      tags:
+      - 消息管理
+    post:
+      description: 发布消息
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/message_api.MessageRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 发布消息
+      tags:
+      - 消息管理
+  /api/messages_all:
+    get:
       description: 消息列表
       parameters:
       - description: token
@@ -1969,30 +2048,6 @@ paths:
                   $ref: '#/definitions/res.ListResponse-models_MessageModel'
               type: object
       summary: 消息列表
-      tags:
-      - 消息管理
-    post:
-      description: 发布消息
-      parameters:
-      - description: 查询参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/message_api.MessageRequest'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/res.Response'
-      summary: 发布消息
       tags:
       - 消息管理
   /api/messages_record:
@@ -2071,13 +2126,13 @@ paths:
       - 新闻管理
   /api/settings/{name}:
     get:
-      description: 显示某一项的配置信息
+      description: 显示某一项的配置信息  site email qq qiniu jwt
       parameters:
       - description: name
         in: path
         name: name
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:

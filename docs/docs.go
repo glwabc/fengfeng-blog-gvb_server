@@ -1018,6 +1018,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/image": {
+            "post": {
+                "description": "上上传单个图片，返回图片的url",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "上传单个图片，返回图片的url",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "文件上传",
+                        "name": "images",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/image_names": {
             "get": {
                 "description": "图片名称列表",
@@ -1303,6 +1342,12 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "日志等级",
+                        "name": "level",
                         "in": "query"
                     }
                 ],
@@ -1592,6 +1637,86 @@ const docTemplate = `{
         },
         "/api/messages": {
             "get": {
+                "description": "用户与其他人的消息列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "消息管理"
+                ],
+                "summary": "用户与其他人的消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/message_api.Message"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "发布消息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "消息管理"
+                ],
+                "summary": "发布消息",
+                "parameters": [
+                    {
+                        "description": "查询参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/message_api.MessageRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/messages_all": {
+            "get": {
                 "description": "消息列表",
                 "produces": [
                     "application/json"
@@ -1646,42 +1771,6 @@ const docTemplate = `{
                                     }
                                 }
                             ]
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "发布消息",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "消息管理"
-                ],
-                "summary": "发布消息",
-                "parameters": [
-                    {
-                        "description": "查询参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/message_api.MessageRequest"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.Response"
                         }
                     }
                 }
@@ -1809,7 +1898,7 @@ const docTemplate = `{
         },
         "/api/settings/{name}": {
             "get": {
-                "description": "显示某一项的配置信息",
+                "description": "显示某一项的配置信息  site email qq qiniu jwt",
                 "produces": [
                     "application/json"
                 ],
@@ -1819,7 +1908,7 @@ const docTemplate = `{
                 "summary": "显示某一项的配置信息",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "name",
                         "name": "name",
                         "in": "path",
@@ -2793,7 +2882,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "path",
-                "sort",
                 "title"
             ],
             "properties": {
