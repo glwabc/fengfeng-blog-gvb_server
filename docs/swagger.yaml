@@ -200,6 +200,41 @@ definitions:
     - article_id
     - content
     type: object
+  config.SiteInfo:
+    properties:
+      addr:
+        type: string
+      bei_an:
+        type: string
+      bilibili_url:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      gitee_url:
+        type: string
+      github_url:
+        type: string
+      job:
+        type: string
+      name:
+        type: string
+      qq_image:
+        type: string
+      slogan:
+        type: string
+      slogan_en:
+        type: string
+      title:
+        type: string
+      version:
+        type: string
+      web:
+        type: string
+      wechat_image:
+        type: string
+    type: object
   ctype.ImageType:
     enum:
     - 1
@@ -2133,6 +2168,11 @@ paths:
         name: name
         required: true
         type: string
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2164,6 +2204,53 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 修改某一项的配置信息
+      tags:
+      - 系统管理
+  /api/settings/site:
+    get:
+      description: 显示网站信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.SiteInfo'
+              type: object
+      summary: 显示网站信息
+      tags:
+      - 系统管理
+    put:
+      description: 编辑网站信息
+      parameters:
+      - description: 编辑网站信息的参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/config.SiteInfo'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.SiteInfo'
+              type: object
+      summary: 编辑网站信息
       tags:
       - 系统管理
   /api/tags:

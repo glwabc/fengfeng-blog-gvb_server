@@ -48,11 +48,11 @@ qi_niu:
   cdn: http://python.fengfengzhidao.com/
   zone: z2
   prefix: gvb
-  size: 5
+  size: 6
 email:
   host: smtp.qq.com
   port: 465
-  user: 2xx7xxx@qq.com
+  user: 2663456523@qq.com
   password: xxxx
   default_from_email: 枫枫知道
   use_ssl: true

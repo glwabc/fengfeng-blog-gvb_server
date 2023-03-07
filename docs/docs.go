@@ -1896,6 +1896,86 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/settings/site": {
+            "get": {
+                "description": "显示网站信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统管理"
+                ],
+                "summary": "显示网站信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/config.SiteInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "编辑网站信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "系统管理"
+                ],
+                "summary": "编辑网站信息",
+                "parameters": [
+                    {
+                        "description": "编辑网站信息的参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/config.SiteInfo"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/config.SiteInfo"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/settings/{name}": {
             "get": {
                 "description": "显示某一项的配置信息  site email qq qiniu jwt",
@@ -1912,6 +1992,13 @@ const docTemplate = `{
                         "description": "name",
                         "name": "name",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -2658,6 +2745,59 @@ const docTemplate = `{
                 "parent_comment_id": {
                     "description": "父评论id",
                     "type": "integer"
+                }
+            }
+        },
+        "config.SiteInfo": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "bei_an": {
+                    "type": "string"
+                },
+                "bilibili_url": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "gitee_url": {
+                    "type": "string"
+                },
+                "github_url": {
+                    "type": "string"
+                },
+                "job": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "qq_image": {
+                    "type": "string"
+                },
+                "slogan": {
+                    "type": "string"
+                },
+                "slogan_en": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "web": {
+                    "type": "string"
+                },
+                "wechat_image": {
+                    "type": "string"
                 }
             }
         },
