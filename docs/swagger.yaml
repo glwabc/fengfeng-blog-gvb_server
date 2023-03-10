@@ -777,8 +777,14 @@ definitions:
       id:
         description: 主键ID
         type: integer
+      integral:
+        description: 我的积分
+        type: integer
       ip:
         description: ip地址
+        type: string
+      link:
+        description: 我的链接地址
         type: string
       nick_name:
         description: 昵称
@@ -787,6 +793,9 @@ definitions:
         allOf:
         - $ref: '#/definitions/ctype.Role'
         description: 权限  1 管理员  2 普通用户  3 游客
+      sign:
+        description: 我的签名
+        type: string
       sign_status:
         allOf:
         - $ref: '#/definitions/ctype.SignStatus'
@@ -999,7 +1008,16 @@ definitions:
     - role
     - user_id
     type: object
-host: 127.0.0.01:8080
+  user_api.UserUpdateNicknameRequest:
+    properties:
+      link:
+        type: string
+      nick_name:
+        type: string
+      sign:
+        type: string
+    type: object
+host: 127.0.0.1:8080
 info:
   contact: {}
   description: gvb_server API文档
@@ -1337,6 +1355,25 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 用户收藏文章，或取消收藏
+      tags:
+      - 文章管理
+  /api/articles/content/{id}:
+    get:
+      description: 获取文章正文
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 获取文章正文
       tags:
       - 文章管理
   /api/articles/tags:
@@ -2439,6 +2476,54 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 用户绑定邮箱
+      tags:
+      - 用户管理
+  /api/user_info:
+    get:
+      description: 用户信息
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserModel'
+              type: object
+      summary: 用户信息
+      tags:
+      - 用户管理
+    put:
+      description: 修改当前登录人的昵称，签名，链接
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 昵称，签名，链接
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserUpdateNicknameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 修改当前登录人的昵称，签名，链接
       tags:
       - 用户管理
   /api/user_password:

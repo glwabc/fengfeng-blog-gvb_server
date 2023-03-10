@@ -506,6 +506,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/articles/content/{id}": {
+            "get": {
+                "description": "获取文章正文",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "获取文章正文",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/articles/tags": {
             "get": {
                 "description": "标签文章列表",
@@ -2325,6 +2354,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user_info": {
+            "get": {
+                "description": "用户信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "修改当前登录人的昵称，签名，链接",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "修改当前登录人的昵称，签名，链接",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "昵称，签名，链接",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserUpdateNicknameRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/user_password": {
             "put": {
                 "description": "修改登录人的密码",
@@ -3646,8 +3752,16 @@ const docTemplate = `{
                     "description": "主键ID",
                     "type": "integer"
                 },
+                "integral": {
+                    "description": "我的积分",
+                    "type": "integer"
+                },
                 "ip": {
                     "description": "ip地址",
+                    "type": "string"
+                },
+                "link": {
+                    "description": "我的链接地址",
                     "type": "string"
                 },
                 "nick_name": {
@@ -3661,6 +3775,10 @@ const docTemplate = `{
                             "$ref": "#/definitions/ctype.Role"
                         }
                     ]
+                },
+                "sign": {
+                    "description": "我的签名",
+                    "type": "string"
                 },
                 "sign_status": {
                     "description": "注册来源",
@@ -3987,6 +4105,20 @@ const docTemplate = `{
                     "type": "integer"
                 }
             }
+        },
+        "user_api.UserUpdateNicknameRequest": {
+            "type": "object",
+            "properties": {
+                "link": {
+                    "type": "string"
+                },
+                "nick_name": {
+                    "type": "string"
+                },
+                "sign": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`
@@ -3994,7 +4126,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "127.0.0.01:8080",
+	Host:             "127.0.0.1:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "gvb_server API文档",

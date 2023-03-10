@@ -135,7 +135,7 @@ func ArticleUpdate(id string, data map[string]any) error {
 		Update().
 		Index(models.ArticleModel{}.Index()).
 		Id(id).
-		Doc(data).
+		Doc(data).Refresh("true").
 		Do(context.Background())
 	return err
 }
