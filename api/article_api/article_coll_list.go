@@ -71,6 +71,7 @@ func (ArticleApi) ArticleCollListView(c *gin.Context) {
 			continue
 		}
 		article.ID = hit.Id
+		article.Content = ""
 		collList = append(collList, CollResponse{
 			ArticleModel: article,
 			CreatedAt:    collMap[hit.Id],
