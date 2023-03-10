@@ -199,6 +199,11 @@ const docTemplate = `{
                 "summary": "文章列表",
                 "parameters": [
                     {
+                        "type": "boolean",
+                        "name": "is_user",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "key",
                         "in": "query"
@@ -222,6 +227,12 @@ const docTemplate = `{
                         "type": "string",
                         "name": "tag",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -401,7 +412,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "name": "id",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
                         "in": "query"
                     },
                     {
@@ -2311,6 +2337,67 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_articles": {
+            "get": {
+                "description": "用户发布的文章列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "用户发布的文章列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-article_api_CollResponse"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }

@@ -21,7 +21,7 @@ type CollResponse struct {
 // @Tags 文章管理
 // @Summary 用户收藏的文章列表
 // @Description 用户收藏的文章列表
-// @Param data query models.ESIDRequest   true  "表示多个参数"
+// @Param data query models.PageInfo  true  "表示多个参数"
 // @Param token header string  true  "token"
 // @Router /api/articles/collects [get]
 // @Produce json

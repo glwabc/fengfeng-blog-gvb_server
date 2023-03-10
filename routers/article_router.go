@@ -16,7 +16,7 @@ func (router RouterGroup) ArticleRouter() {
 	router.PUT("articles", middleware.JwtAdmin(), app.ArticleUpdateView)
 	router.DELETE("articles", middleware.JwtAdmin(), app.ArticleRemoveView)
 	router.POST("articles/collects", middleware.JwtAuth(), app.ArticleCollCreateView)
-	router.GET("articles/collects", middleware.JwtAuth(), app.ArticleCollListView)
+	router.GET("articles/collects", middleware.JwtAuth(), app.ArticleCollListView) // 用户收藏的文章列表
 	router.DELETE("articles/collects", middleware.JwtAuth(), app.ArticleCollBatchRemoveView)
 	router.GET("articles/text", app.FullTextSearchView)            // 全文搜索
 	router.GET("articles/digg", app.ArticleDiggView)               // 文章点赞

@@ -14,15 +14,13 @@ import (
 
 func CommList(option Option) (list []models.ArticleModel, count int, err error) {
 
-	boolSearch := elastic.NewBoolQuery()
-
 	if option.Key != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
 	if option.Tag != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Tag, "tags"),
 		)
 	}
@@ -50,7 +48,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(boolSearch).
+		Query(option.Query).
 		Highlight(elastic.NewHighlight().Field("title")).
 		From(option.GetForm()).
 		Sort(sortField.Field, sortField.Ascending).
