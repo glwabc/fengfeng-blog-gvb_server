@@ -44,7 +44,7 @@ qi_niu:
   enable: false
   access_key: UMM244VUXpo
   secret_key: 0WV44A5EGr44uI0jlS
-  bucket: feng44idao
+  bucket: fengfengzhidao
   cdn: http://python.fengfengzhidao.com/
   zone: z2
   prefix: gvb

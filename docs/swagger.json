@@ -193,6 +193,7 @@
                 "parameters": [
                     {
                         "type": "boolean",
+                        "description": "根据这个参数判断是否显示我收藏的文章列表",
                         "name": "is_user",
                         "in": "query"
                     },
@@ -1979,6 +1980,26 @@
                 }
             }
         },
+        "/api/qq_login_path": {
+            "get": {
+                "description": "获取qq登录的跳转链接,data就是qq的跳转地址",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取qq登录的跳转链接",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/settings/site": {
             "get": {
                 "description": "显示网站信息",
@@ -2330,67 +2351,6 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user_articles": {
-            "get": {
-                "description": "用户发布的文章列表",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章管理"
-                ],
-                "summary": "用户发布的文章列表",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "name": "key",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "name": "sort",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/res.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/res.ListResponse-article_api_CollResponse"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     }
                 }

@@ -1161,7 +1161,8 @@ paths:
     get:
       description: 文章列表
       parameters:
-      - in: query
+      - description: 根据这个参数判断是否显示我收藏的文章列表
+        in: query
         name: is_user
         type: boolean
       - in: query
@@ -2246,6 +2247,19 @@ paths:
       summary: 新闻列表
       tags:
       - 新闻管理
+  /api/qq_login_path:
+    get:
+      description: 获取qq登录的跳转链接,data就是qq的跳转地址
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 获取qq登录的跳转链接
+      tags:
+      - 用户管理
   /api/settings/{name}:
     get:
       description: 显示某一项的配置信息  site email qq qiniu jwt
@@ -2469,42 +2483,6 @@ paths:
       summary: 更新标签
       tags:
       - 标签管理
-  /api/user_articles:
-    get:
-      description: 用户发布的文章列表
-      parameters:
-      - in: query
-        name: key
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: page
-        type: integer
-      - in: query
-        name: sort
-        type: string
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/res.ListResponse-article_api_CollResponse'
-              type: object
-      summary: 用户发布的文章列表
-      tags:
-      - 文章管理
   /api/user_bind_email:
     post:
       description: 用户绑定邮箱
