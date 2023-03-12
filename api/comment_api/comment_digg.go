@@ -18,7 +18,7 @@ type CommentIDRequest struct {
 // @Summary 评论点赞
 // @Description 评论点赞
 // @Param id path int  true  "id"
-// @Router /api/comments/{id} [get]
+// @Router /api/comments/digg/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (CommentApi) CommentDigg(c *gin.Context) {

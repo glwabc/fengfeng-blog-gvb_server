@@ -194,6 +194,28 @@ definitions:
       id:
         type: integer
     type: object
+  comment_api.CommentListResponse:
+    properties:
+      article_banner:
+        type: string
+      article_title:
+        type: string
+      comment_count:
+        type: integer
+      content:
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      digg_count:
+        type: integer
+      id:
+        type: integer
+      parent_comment_id:
+        type: integer
+      user_nick_name:
+        type: string
+    type: object
   comment_api.CommentRequest:
     properties:
       article_id:
@@ -766,7 +788,7 @@ definitions:
         description: 地址
         type: string
       avatar:
-        description: 头像id
+        description: 头像
         type: string
       created_at:
         description: 创建时间
@@ -841,6 +863,13 @@ definitions:
         type: integer
       list:
         $ref: '#/definitions/article_api.TagsResponse'
+    type: object
+  res.ListResponse-comment_api_CommentListResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/comment_api.CommentListResponse'
     type: object
   res.ListResponse-log_stash_LogStashModel:
     properties:
@@ -1530,7 +1559,16 @@ paths:
       description: 评论列表
       parameters:
       - in: query
-        name: articleID
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
         type: string
       produces:
       - application/json
@@ -1542,7 +1580,7 @@ paths:
             - $ref: '#/definitions/res.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/res.ListResponse-models_CommentModel'
+                  $ref: '#/definitions/res.ListResponse-comment_api_CommentListResponse'
               type: object
       summary: 评论列表
       tags:
@@ -1601,6 +1639,30 @@ paths:
       summary: 删除评论
       tags:
       - 评论管理
+    get:
+      description: 文章下的评论列表
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_CommentModel'
+              type: object
+      summary: 文章下的评论列表
+      tags:
+      - 评论管理
+  /api/comments/digg/{id}:
     get:
       description: 评论点赞
       parameters:

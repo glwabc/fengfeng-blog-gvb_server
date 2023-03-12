@@ -843,7 +843,22 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "name": "articleID",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
                         "in": "query"
                     }
                 ],
@@ -859,7 +874,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/res.ListResponse-models_CommentModel"
+                                            "$ref": "#/definitions/res.ListResponse-comment_api_CommentListResponse"
                                         }
                                     }
                                 }
@@ -905,7 +920,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comments/{id}": {
+        "/api/comments/digg/{id}": {
             "get": {
                 "description": "评论点赞",
                 "produces": [
@@ -929,6 +944,47 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comments/{id}": {
+            "get": {
+                "description": "文章下的评论列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "评论管理"
+                ],
+                "summary": "文章下的评论列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_CommentModel"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -2963,6 +3019,39 @@ const docTemplate = `{
                 }
             }
         },
+        "comment_api.CommentListResponse": {
+            "type": "object",
+            "properties": {
+                "article_banner": {
+                    "type": "string"
+                },
+                "article_title": {
+                    "type": "string"
+                },
+                "comment_count": {
+                    "type": "integer"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "digg_count": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "parent_comment_id": {
+                    "type": "integer"
+                },
+                "user_nick_name": {
+                    "type": "string"
+                }
+            }
+        },
         "comment_api.CommentRequest": {
             "type": "object",
             "required": [
@@ -3784,7 +3873,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "avatar": {
-                    "description": "头像id",
+                    "description": "头像",
                     "type": "string"
                 },
                 "created_at": {
@@ -3896,6 +3985,17 @@ const docTemplate = `{
                 },
                 "list": {
                     "$ref": "#/definitions/article_api.TagsResponse"
+                }
+            }
+        },
+        "res.ListResponse-comment_api_CommentListResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/comment_api.CommentListResponse"
                 }
             }
         },

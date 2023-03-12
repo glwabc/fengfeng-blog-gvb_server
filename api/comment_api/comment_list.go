@@ -11,20 +11,20 @@ import (
 )
 
 type CommentListRequest struct {
-	ArticleID string `form:"article_id"`
+	ArticleID string `form:"id" uri:"id" json:"id"`
 }
 
-// CommentListView 评论列表
+// CommentListView 文章下的评论列表
 // @Tags 评论管理
-// @Summary 评论列表
-// @Description 评论列表
-// @Param data query CommentListRequest   true  "表示多个参数"
-// @Router /api/comments [get]
+// @Summary 文章下的评论列表
+// @Description 文章下的评论列表
+// @Param id path string  true  "id"
+// @Router /api/comments/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.CommentModel]}
 func (CommentApi) CommentListView(c *gin.Context) {
 	var cr CommentListRequest
-	err := c.ShouldBindQuery(&cr)
+	err := c.ShouldBindUri(&cr)
 	if err != nil {
 		res.FailWithError(err, &cr, c)
 		return
