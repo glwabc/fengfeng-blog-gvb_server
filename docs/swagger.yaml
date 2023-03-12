@@ -19,6 +19,13 @@ definitions:
     - images
     - title
     type: object
+  article_api.ArticleIDTitleListResponse:
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+    type: object
   article_api.ArticleRequest:
     properties:
       abstract:
@@ -1162,6 +1169,31 @@ paths:
       summary: 更新广告
       tags:
       - 广告管理
+  /api/article_id_title:
+    get:
+      description: 文章id-title列表
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/article_api.ArticleIDTitleListResponse'
+                  type: array
+              type: object
+      summary: 文章id-title列表
+      tags:
+      - 文章管理
   /api/articles:
     delete:
       description: 删除文章

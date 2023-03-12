@@ -9,6 +9,7 @@ func (router RouterGroup) ArticleRouter() {
 	app := api.ApiGroupApp.ArticleApi
 	router.POST("articles", middleware.JwtAdmin(), app.ArticleCreateView)
 	router.GET("articles", app.ArticleListView)
+	router.GET("article_id_title", app.ArticleIDTitleListView)
 	router.GET("categorys", app.ArticleCategoryListView)
 	router.GET("articles/detail", app.ArticleDetailByTitleView)
 	router.GET("articles/calendar", app.ArticleCalendarView)
