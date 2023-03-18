@@ -1,0 +1,356 @@
+{
+  "data": [
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 19:57:28",
+        "updated_at": "2023-03-08 19:57:28",
+        "title": "日志管理",
+        "keyword": "日志管理",
+        "abstract": "日志管理的文章",
+        "content": "![](https://secure2.wostatic.cn/static/gHHAi4rUfKomgxUkMyg3zt/image.png?auth_key=1678276617-8yofvbLeqx5cW5KGKJcoEq-0-45014d5f98347caae80f43f5be936a92)\n\n\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/logs\"\n        like-title=\"搜索日志名称\"\n        ref=\"gvbTable\"\n        :is-add=\"false\"\n        :is-edit=\"false\"\n        default-delete\n    \u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'level'\"\u003e\n          \u003ca-tag :color=\"levelColor[record.level]\"\u003e{{ record.level }}\u003c/a-tag\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n       \u003ctemplate #filters\u003e\n        \u003ca-select\n          class=\"gvb_select\"\n          v-model:value=\"level\"\n          style=\"width: 200px\"\n          allowClear\n          @change=\"onFilter\"\n          :options=\"levelOptions\"\n          placeholder=\"筛选日志等级\"\n      \u003e\u003c/a-select\u003e\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n\n  \u003c/div\u003e\n\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\n\nconst levelColor = {\n  \"debug\": \"green\",\n  \"info\": \"blue\",\n  \"warn\": \"orange\",\n  \"error\": \"red\",\n}\n\nconst levelOptions = [\n  {label: \"debug\", value: 1,},\n  {label: \"info\", value: 2,},\n  {label: \"warn\", value: 3,},\n  {label: \"error\", value: 4,}\n]\nconst level = ref(undefined)\nconst gvbTable = ref(null)\n\nfunction onFilter(){\n  gvbTable.value.ExportList({level: level.value})\n}\n\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: 'ip', dataIndex: 'ip', key: 'ip'},\n    {title: '地址', dataIndex: 'addr', key: 'addr'},\n    {title: '等级', dataIndex: 'level', key: 'level'},\n    {title: '内容', dataIndex: 'content', key: 'content'},\n    {title: '日志时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n})\n\u003c/script\u003e\n```\n\n\n\n后端的一些bug\n\n1. swag，自定义类型不能识别\n\n```Go\ntype LogRequest struct {\n  models.PageInfo\n  Level log_stash.Level `form:\"level\"`\n}\n\n// LogListView 日志列表\n// @Tags 日志管理\n// @Summary 日志列表\n// @Description 日志列表\n// @Param data query LogRequest    false  \"查询参数\"\n// @Param level query int false \"日志等级\"\n// @Router /api/logs [get]\n// @Produce json\n// @Success 200 {object} res.Response{data=res.ListResponse[log_stash.LogStashModel]}\nfunc (LogApi) LogListView(c *gin.Context) {\n}\n```\n2. 分页查询，总条数问题",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 10,
+        "banner_url": "/uploads/file/215953KgCPr.jpg",
+        "tags": [
+          "后台",
+          "日志"
+        ]
+      },
+      "id": "D9cVwYYBMeB77WN1XkY7"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 19:47:59",
+        "updated_at": "2023-03-08 19:47:59",
+        "title": "12. 群聊消息",
+        "keyword": "12. 群聊消息",
+        "abstract": "\n\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/chat_grou",
+        "content": "![](http://python.fengfengzhidao.com/pic/20230307220456.png)\n\n\n\n```Go\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/chat_groups_records\"\n        like-title=\"搜索消息名称\"\n        ref=\"gvbTable\"\n        :is-add=\"false\"\n        :is-edit=\"false\"\n        :is-delete=\"false\"\n        default-delete\n    \u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'avatar'\"\u003e\n          \u003cimg :src=\"'/' + record.avatar\" alt=\"\" v-if=\"record.avatar !== ''\"\n               style=\"width: 30px;height: 30px;border-radius: 50%\"\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'is_group'\"\u003e\n          \u003ca-tag v-if=\"record.is_group\" color=\"blue\"\u003e群消息\u003c/a-tag\u003e\n          \u003ca-tag v-else color=\"red\"\u003e系统消息\u003c/a-tag\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'msg_type'\"\u003e\n          \u003cspan color=\"blue\"\u003e{{  chatTypeDict[record.msg_type] }}\u003c/span\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n      \u003ctemplate #filters\u003e\n\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n\n  \u003c/div\u003e\n\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\n\nconst level = ref(undefined)\nconst gvbTable = ref(null)\n\n/*\n  InRoomMsg  ctype.MsgType = 1 // 进入聊天室\n  TextMsg    ctype.MsgType = 2 // 发文本消息\n  ImageMsg   ctype.MsgType = 3 // 图片消息\n  VoiceMsg   ctype.MsgType = 4 // 语音消息\n  VideoMsg   ctype.MsgType = 5 // 视频消息\n  SystemMsg  ctype.MsgType = 6 // 系统消息\n  OutRoomMsg ctype.MsgType = 7 // 退出聊天室\n */\n\nconst chatTypeDict = {\n  1: \"进入聊天室\",\n  2: \"文本消息\",\n  3: \"图片消息\",\n  4: \"语音消息\",\n  5: \"视频消息\",\n  6: \"系统消息\",\n  7: \"退出聊天室\",\n}\n\nfunction onFilter() {\n  gvbTable.value.ExportList({level: level.value})\n}\n\n/*\n  {\n        \"avatar\": \"uploads/chat_avatar/大.png\",\n        \"content\": \"大意的巴蒂斯图塔 进入聊天室\",\n        \"created_at\": \"2023-02-26T10:47:16.948+08:00\",\n        \"id\": 14,\n        \"is_group\": true,\n        \"msg_type\": 1,\n        \"nick_name\": \"大意的巴蒂斯图塔\"\n      },\n */\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: '昵称', dataIndex: 'nick_name', key: 'nick_name'},\n    {title: '头像', dataIndex: 'avatar', key: 'avatar'},\n    {title: '内容', dataIndex: 'content', key: 'content'},\n    {title: '是否是群聊', dataIndex: 'is_group', key: 'is_group'},\n    {title: '消息类型', dataIndex: 'msg_type', key: 'msg_type'},\n    {title: '日志时间', dataIndex: 'created_at', key: 'created_at'},\n  ],\n})\n\u003c/script\u003e\n```\n\n\n\n",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 17,
+        "banner_url": "/uploads/file/165914XyhES.jpg",
+        "tags": [
+          "前端",
+          "后台"
+        ]
+      },
+      "id": "DdcMwYYBMeB77WN1sEY8"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 19:45:42",
+        "updated_at": "2023-03-08 19:45:42",
+        "title": "13. 文章管理",
+        "keyword": "13. 文章管理",
+        "abstract": "后端增加了标签名称列表，文章分类列表",
+        "content": "## 文章列表\n\n![](https://secure2.wostatic.cn/static/unnCRvhg2ux4P7tYH1hDDE/image.png)\n\n\n\n后端增加了标签名称列表，文章分类列表\n\n\n\n注意事项：\n\n文章分类搜索应该注意还是不要走key这个参数去查询，不然 模糊匹配和分类搜索就只能二选一\n\n\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/articles\"\n        like-title=\"搜索文章标题\"\n        ref=\"gvbTable\"\n        default-delete\n    \u003e\n      \u003ctemplate #add\u003e\n        \u003ca-button type=\"primary\"\u003e添加\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #edit=\"{record}\"\u003e\n        \u003ca-button type=\"primary\"\u003e编辑\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #cell=\"{column, record, index }\"\u003e\n        \u003ctemplate v-if=\"column.key === 'index'\"\u003e\n          \u003cspan\u003e{{ index + 1 }}\u003c/span\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'title'\"\u003e\n          \u003cspan class=\"gvb_article_title\" v-html=\"record.title\"\u003e\u003c/span\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'banner_url'\"\u003e\n          \u003cimg :src=\"'/' + record.banner_url\" alt=\"\" height=\"60\" style=\"border-radius: 5px\"\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'data'\"\u003e\n          \u003cdiv class=\"gvb_article_data\"\u003e\n            \u003cspan\u003e\u003ci class=\"fa fa-eye\"\u003e\u003c/i\u003e{{ record.look_count }}\u003c/span\u003e\n            \u003cspan\u003e\u003ci class=\"fa fa-thumbs-o-up\"\u003e\u003c/i\u003e{{ record.digg_count }}\u003c/span\u003e\n            \u003cspan\u003e\u003ci class=\"fa fa-comment-o\"\u003e\u003c/i\u003e{{ record.comment_count }}\u003c/span\u003e\n            \u003cspan\u003e\u003ci class=\"fa fa-star-o\"\u003e\u003c/i\u003e{{ record.collects_count }}\u003c/span\u003e\n          \u003c/div\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'abstract'\"\u003e\n          \u003cspan class=\"gvb_article_abstract\"\u003e{{ record.abstract }}\u003c/span\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'tags'\"\u003e\n          \u003cdiv class=\"gvb_article_tags\"\u003e\n            \u003ca-tag :color=\"getColor(i)\" v-for=\"(item, i) in record.tags\" :key=\"i\"\u003e{{ item }}\u003c/a-tag\u003e\n          \u003c/div\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n\n      \u003ctemplate #filters\u003e\n        \u003ca-select\n            class=\"gvb_select\"\n            v-model:value=\"tag\"\n            style=\"width: 200px\"\n            allowClear\n            @change=\"onFilter\"\n            :options=\"data.tagOptions\"\n            placeholder=\"筛选文章标签\"\n        \u003e\u003c/a-select\u003e\n        \u003ca-select\n            class=\"gvb_select\"\n            v-model:value=\"category\"\n            style=\"width: 200px\"\n            allowClear\n            @change=\"onFilter\"\n            :options=\"data.categoryOptions\"\n            placeholder=\"筛选文章分类\"\n        \u003e\u003c/a-select\u003e\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n  \u003c/div\u003e\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport {getTagNameListApi} from \"@/api/tag_api\";\nimport {getCategoryListApi} from \"@/api/article_api\";\nimport {reactive, ref} from \"vue\";\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\n\nconst tag = ref(null)\nconst category = ref(null)\nconst gvbTable = ref(null)\nconst data = reactive({\n  list: [\n    {\n      \"abstract\": \"需要一个全局变量，用于保存配置文件，存放在global目录下\",\n      \"banner_id\": 3,\n      \"banner_url\": \"uploads/file/29.jpg\",\n      \"category\": \"p1\",\n      \"collects_count\": 0,\n      \"comment_count\": 0,\n      \"created_at\": \"2023-02-24 21:21:29\",\n      \"digg_count\": 0,\n      \"id\": \"P46Vg4YB6uoytGZA-bE7\",\n      \"look_count\": 0,\n      \"tags\": [\n        \"golang\",\n        \"后端\",\n        \"教程\",\n      ],\n      \"title\": \"后端项目搭建\",\n      \"updated_at\": \"2023-02-24 21:31:13\",\n      \"user_avatar\": \"/uploads/avatar/default.png\",\n      \"user_id\": 1,\n      \"user_nick_name\": \"admin\"\n    },\n  ],\n  columns: [\n    // {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: 'Index', dataIndex: 'index', key: 'index'},\n    {title: '文章标题', dataIndex: 'title', key: 'title'},\n    {title: '文章分类', dataIndex: 'category', key: 'category'},\n    {title: '文章简介', dataIndex: 'abstract', key: 'abstract'},\n    {title: '作者', dataIndex: 'user_nick_name', key: 'user_nick_name'},\n    {title: '封面', dataIndex: 'banner_url', key: 'banner_url'},\n    {title: '文章数据', dataIndex: 'data', key: 'data'},\n    // {title: '浏览量', dataIndex: 'look_count', key: 'look_count'},\n    // {title: '点赞', dataIndex: 'digg_count', key: 'digg_count'},\n    // {title: '评论', dataIndex: 'comment_count', key: 'comment_count'},\n    // {title: '收藏', dataIndex: 'collects_count', key: 'collects_count'},\n    {title: '标签', dataIndex: 'tags', key: 'tags'},\n    {title: '发布时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n  tagOptions: [],\n  categoryOptions: []\n})\n\nconst colorList = [\"red\", \"blue\", \"green\", \"purple\", \"cyan\", \"orange\", \"pink\"]\n\nfunction getColor(index) {\n  return colorList[index]\n}\n\nfunction onFilter() {\n  gvbTable.value.ExportList({tag: tag.value, key: category.value})\n}\n\nasync function getData() {\n  let res = await getTagNameListApi()\n  data.tagOptions = res.data\n  let c = await getCategoryListApi()\n  data.categoryOptions = c.data\n}\n\ngetData()\n\n\u003c/script\u003e\n\n\u003cstyle lang=\"scss\"\u003e\n.gvb_article_data {\n  span {\n    margin-right: 7px;\n\n    i {\n      margin-right: 3px;\n    }\n\n    \u0026:last-child {\n      margin-right: 0;\n    }\n  }\n}\n\n.gvb_article_abstract {\n  max-width: 12rem;\n  overflow-x: hidden;\n  display: inline-block;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n\n.gvb_article_tags {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-column-gap: 10px;\n  grid-row-gap: 10px;\n  justify-items: self-start;\n}\n\n.gvb_article_title {\n  em {\n    color: red;\n    margin-right: 1px;\n  }\n}\n\u003c/style\u003e\n```\n\n\n\n\n\n## 文章添加\n\nmarkdown组件选择\n\n\n\n1. 主题切换\n2. 图片上传\n3. 粘贴图片上传\n4. ctrl s打开侧边栏\n\n\n\n\n\n```Vue\nnpm i md-editor-v3\n```\n\n\n\n\n\n### 主题切换\n\n![](http://python.fengfengzhidao.com/pic/20230307232533.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230307232551.png)\n\n\n\n监听store里面的主题变化\n\n```Vue\n\u003ctemplate\u003e\n  \u003cmd-editor v-model=\"data.content\" :theme=\"theme\"/\u003e\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport {reactive, ref, watch} from 'vue';\nimport {useStore} from \"@/stores/store\";\nimport MdEditor from 'md-editor-v3';\nimport 'md-editor-v3/lib/style.css';\n\nconst store = useStore()\nconst theme = ref(\"dark\")\n\nconst data = reactive({\n  content: \"hello fengfeng\",\n})\n\nwatch(() =\u003e store.theme, (themeVal) =\u003e {\n  theme.value = themeVal ? \"\" : \"dark\"\n}, {immediate: true}) // 初始化就执行回调\n\n\u003c/script\u003e\n\n\u003cstyle scoped\u003e\n.md-editor-dark {\n  --md-color: #999;\n  --md-hover-color: #bbb;\n  --md-bk-color: #141414;  // 自己改的黑夜颜色\n  --md-bk-color-outstand: #111;\n  --md-bk-hover-color: #1b1a1a;\n  --md-border-color: #2d2d2d;\n  --md-border-hover-color: #636262;\n  --md-border-active-color: #777;\n  --md-modal-mask: #00000073;\n  --md-scrollbar-bg-color: #0f0f0f;\n  --md-scrollbar-thumb-color: #2d2d2d;\n  --md-scrollbar-thumb-hover-color: #3a3a3a;\n  --md-scrollbar-thumb-active-color: #3a3a3a;\n}\n\n// 高度\n.md-editor {\n  height: calc(100vh - 130px);\n}\n\u003c/style\u003e\n\n\n```\n\n\n\n\n\n### 图片上传\n\n\n\n\n\n自带了从剪贴板上传图片的功能\n\n![](http://python.fengfengzhidao.com/pic/20230307235345.png)\n\n```Vue\n\u003ctemplate\u003e\n  \u003cmd-editor v-model=\"data.content\"  @on-upload-img=\"onUploadImg\"/\u003e\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport {reactive} from 'vue';\nimport MdEditor from 'md-editor-v3';\nimport {uploadImageApi} from \"@/api/image_api\";\nimport 'md-editor-v3/lib/style.css';\n\nconst data = reactive({\n  content: \"hello fengfeng\",\n})\nconst onUploadImg = async (files, callback) =\u003e {\n  const res = await Promise.all(\n      files.map((file) =\u003e {\n        return uploadImageApi(file)\n      })\n  );\n  callback(res.map((item) =\u003e item.data));\n};\n\n\u003c/script\u003e\n\n```\n\n\n\nimage_api.js\n\n```Vue\nexport function uploadImageApi(file) {\n    return new Promise((resolve, reject) =\u003e {\n        const form = new FormData();\n        form.append('image', file);\n        Service.post(\"/api/image\", form, {\n            headers: {\n                'Content-Type': 'multipart/form-data'\n            }\n        }).then((res) =\u003e resolve(res))\n            .catch((error) =\u003e reject(error));\n    })\n}\n```\n\n",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 10,
+        "banner_url": "/uploads/file/215953KgCPr.jpg",
+        "tags": [
+          "前端",
+          "后台"
+        ]
+      },
+      "id": "B9cKwYYBMeB77WN1l0bs"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 20:37:46",
+        "updated_at": "2023-03-08 20:37:46",
+        "title": "广告管理",
+        "keyword": "广告管理",
+        "abstract": "\n\n\n\n\n\n在base_api.js中，统一给get列表页请求加一个headers\n\nexport function baseListApi(url, params) {\nreturn Service",
+        "content": "![](http://python.fengfengzhidao.com/pic/20230305152421.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230305152453.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230305152507.png)\n\n\n\n在base_api.js中，统一给get列表页请求加一个headers\n\n```Vue\nexport function baseListApi(url, params) {\nreturn Service.get(url, {params, headers:{\n  Gvb_referer: \"admin\"\n  }})\n}\n```\n\n原因是因为referer没法在前端配置\n\n\n\n## 广告列表\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/adverts\"\n        like-title=\"搜索广告名称\"\n        ref=\"gvbTable\"\n        default-delete\n    \u003e\n      \u003ctemplate #add\u003e\n        \u003ca-button type=\"primary\" \u003e添加\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #edit=\"{record}\"\u003e\n        \u003ca-button type=\"primary\"\u003e编辑\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'images'\"\u003e\n          \u003cimg :src=\"record.images\" alt=\"\" height=\"60\" style=\"border-radius: 5px\"\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'is_show'\"\u003e\n          \u003ca-tag v-if=\"record.is_show\" color=\"green\"\u003e显示\u003c/a-tag\u003e\n          \u003ca-tag v-else color=\"red\"\u003e不显示\u003c/a-tag\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'href'\"\u003e\n          \u003cspan\u003e{{ record.href }}\u003c/span\u003e\n          \u003ca-button type=\"link\" target=\"_blank\" :href=\"record.href\"\u003e访问\u003c/a-button\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n  \u003c/div\u003e\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport {reactive} from \"vue\";\n\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: '广告标题', dataIndex: 'title', key: 'title'},\n    {title: '图片路径', dataIndex: 'images', key: 'images'},\n    {title: '跳转地址', dataIndex: 'href', key: 'href'},\n    {title: '是否显示', dataIndex: 'is_show', key: 'is_show'},\n    {title: '添加时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n})\n\u003c/script\u003e\n```\n\n\n\n## 添加广告，编辑广告\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n    \u003ca-modal :title=\"editID ? '编辑广告' : '添加广告'\" v-model:visible=\"data.visible\" @ok=\"handleOK\"\u003e\n      \u003ca-form\n          :model=\"state\"\n          name=\"basic\"\n          ref=\"formRef\"\n          :label-col=\"{ span: 4 }\"\n          :wrapper-col=\"{ span: 20 }\"\n          autocomplete=\"off\"\n      \u003e\n        \u003ca-form-item label=\"广告名称\" name=\"title\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入广告名称' ,trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"state.title\" placeholder=\"广告名称\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"广告链接\" name=\"href\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入广告链接' ,trigger: 'blur'}, {validator: checkUrl, message: 'url不合法', trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"state.href\" placeholder=\"广告链接\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"图片地址\" name=\"images\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入图片地址' ,trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"state.images\" placeholder=\"图片地址\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"是否显示\" name=\"is_show\"\u003e\n          \u003ca-switch v-model:checked=\"state.is_show\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"图片预览\"\u003e\n          \u003cimg :src=\"state.images\" height=\"60\" style=\"border-radius: 5px\" alt=\"\"\u003e\n        \u003c/a-form-item\u003e\n      \u003c/a-form\u003e\n    \u003c/a-modal\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/adverts\"\n        like-title=\"搜索广告名称\"\n        ref=\"gvbTable\"\n        default-delete\n    \u003e\n      \u003ctemplate #add\u003e\n        \u003ca-button type=\"primary\" @click=\"addModal\"\u003e添加\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #edit=\"{record}\"\u003e\n        \u003ca-button type=\"primary\" @click=\"updateModal(record)\"\u003e编辑\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'images'\"\u003e\n          \u003cimg :src=\"record.images\" alt=\"\" height=\"60\" style=\"border-radius: 5px\"\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'is_show'\"\u003e\n          \u003ca-tag v-if=\"record.is_show\" color=\"green\"\u003e显示\u003c/a-tag\u003e\n          \u003ca-tag v-else color=\"red\"\u003e不显示\u003c/a-tag\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'href'\"\u003e\n          \u003cspan\u003e{{ record.href }}\u003c/span\u003e\n          \u003ca-button type=\"link\" target=\"_blank\" :href=\"record.href\"\u003e访问\u003c/a-button\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n  \u003c/div\u003e\n\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\nimport {message} from \"ant-design-vue\";\nimport {createAdvertApi, updateAdvertApi} from \"@/api/advert_api\";\n\nconst gvbTable = ref(null)\nconst formRef = ref(null)\nconst editID = ref(0)\n\nconst _state = {\n  href: \"\",\n  images: \"\",\n  is_show: true,\n  title: \"\"\n}\nconst state = reactive({\n  href: \"\",\n  images: \"\",\n  is_show: true,\n  title: \"\"\n})\n\nlet checkUrl = async (_rule, value) =\u003e {\n  try {\n    new URL(value)\n    return Promise.resolve()\n  } catch (err) {\n    return Promise.reject('不合法的url');\n  }\n};\n\n\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: '广告标题', dataIndex: 'title', key: 'title'},\n    {title: '图片路径', dataIndex: 'images', key: 'images'},\n    {title: '跳转地址', dataIndex: 'href', key: 'href'},\n    {title: '是否显示', dataIndex: 'is_show', key: 'is_show'},\n    {title: '添加时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n  visible: false,\n  modalVisible: false,\n  fileList: []\n})\n\nasync function handleOK() {\n  let res\n  if (editID){\n    res = await updateAdvertApi(editID.value, state)\n  }else {\n    res = await createAdvertApi(state)\n  }\n\n  if (res.code) {\n    message.error(res.msg)\n    return\n  }\n  message.success(res.msg)\n  data.visible = false\n  Object.assign(state, _state)\n  gvbTable.value.ExportList()\n  return\n}\n\nfunction updateModal(record) {\n  editID.value = record.id\n  state.title = record.title\n  state.href = record.href\n  state.images = record.images\n  state.is_show = record.is_show\n  data.visible = true\n}\n\nfunction addModal() {\n  data.visible = true\n  editID.value = 0\n  Object.assign(state, _state)\n}\n\u003c/script\u003e\n```\n\n\n\n接口\n\n```Vue\nimport {Service} from \"@/services/service\";\n// 发布广告\nexport function createAdvertApi(data){\n    return Service.post(\"/api/adverts\", data)\n}\n// 更新广告\nexport function updateAdvertApi(id, data){\n    return Service.put(\"/api/adverts/\" + id, data)\n}\n```",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 13,
+        "banner_url": "/uploads/file/000824Cv7Q4.jpg",
+        "tags": [
+          "后台"
+        ]
+      },
+      "id": "Ftc6wYYBMeB77WN1QkbM"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 20:42:49",
+        "updated_at": "2023-03-08 22:38:44",
+        "title": "图片管理",
+        "keyword": "图片管理",
+        "abstract": "这是图片管理的简介",
+        "content": "![](http://python.fengfengzhidao.com/pic/20230304210958.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230304211008.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230304211025.png)\n\n\n\n\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n\n    \u003ca-modal title=\"上传图片\" v-model:visible=\"data.visible\" @ok=\"uploadComplete\"\u003e\n      \u003ca-upload\n          v-model:file-list=\"data.fileList\"\n          action=\"/api/images\"\n          list-type=\"picture-card\"\n          name=\"images\"\n          multiple\n          :headers=\"{token: store.userInfo.token}\"\n      \u003e\n        \u003ci class=\"fa fa-cloud-upload\"\u003e\u003c/i\u003e\n        \u003cdiv style=\"margin-left: 5px\"\u003e上传图片\u003c/div\u003e\n      \u003c/a-upload\u003e\n    \u003c/a-modal\u003e\n\n    \u003ca-modal title=\"编辑图片\" v-model:visible=\"data.modalVisible\" @ok=\"update\"\u003e\n      \u003ca-form\n          :model=\"updateState\"\n          name=\"basic\"\n          ref=\"formRef\"\n          :label-col=\"{ span: 4 }\"\n          :wrapper-col=\"{ span: 20 }\"\n          autocomplete=\"off\"\n      \u003e\n        \u003ca-form-item label=\"文件名称\" name=\"name\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入文件名' ,trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"updateState.name\" placeholder=\"用户名\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"图片预览\"\u003e\n          \u003cimg :src=\"updateState.path\" height=\"80\" style=\"border-radius: 5px\" alt=\"\"\u003e\n        \u003c/a-form-item\u003e\n      \u003c/a-form\u003e\n    \u003c/a-modal\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/images\"\n        like-title=\"搜索图片名称\"\n        ref=\"gvbTable\"\n        default-delete\n    \u003e\n      \u003ctemplate #add\u003e\n        \u003ca-button type=\"primary\" @click=\"data.visible = true\"\u003e添加\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #edit=\"{record}\"\u003e\n        \u003ca-button type=\"primary\" @click=\"updateModal(record)\"\u003e编辑\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'path'\"\u003e\n          \u003cimg :src=\"record.path\" alt=\"\" height=\"60\" style=\"border-radius: 5px\"\u003e\n        \u003c/template\u003e\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n    \n  \u003c/div\u003e\n\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\nimport {imageRenameApi} from \"@/api/image_api\";\nimport {message} from \"ant-design-vue\";\nimport {useStore} from \"@/stores/store\";\n\nconst store = useStore()\nconst gvbTable = ref(null)\nconst formRef = ref(null)\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: '图片名称', dataIndex: 'name', key: 'name'},\n    {title: '路径', dataIndex: 'path', key: 'path'},\n    {title: '类型', dataIndex: 'image_type', key: 'image_type'},\n    {title: '上传时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n  visible: false,\n  modalVisible: false,\n  fileList: []\n})\n\nconst updateState = reactive({\n  id: 0,\n  name: \"\",\n  path: \"\"\n})\n\n// 打开模态框的操作\nfunction updateModal(record) {\n  data.modalVisible = true\n  updateState.id = record.id\n  updateState.name = record.name\n  updateState.path = record.path\n}\n\n// 修改图片的名称\nasync function update() {\n  try {\n    await formRef.value.validate()\n    let res = await imageRenameApi(updateState)\n    if (res.code) {\n      message.error(res.msg)\n      return\n    }\n    message.success(res.msg)\n    data.modalVisible = false\n    gvbTable.value.ExportList()\n\n  } catch (e) {\n\n  }\n}\n\nfunction uploadComplete(){\n  data.visible = false\n  gvbTable.value.ExportList()\n}\n\u003c/script\u003e\n```",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "枫枫知道",
+        "link": "",
+        "banner_id": 17,
+        "banner_url": "/uploads/file/165914XyhES.jpg",
+        "tags": [
+          "后台"
+        ]
+      },
+      "id": "INc-wYYBMeB77WN14UZN"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 19:58:45",
+        "updated_at": "2023-03-08 22:51:09",
+        "title": "菜单管理",
+        "keyword": "菜单管理",
+        "abstract": "select显示图片\n\u003ca-select\n    ref=\"select\"\n    v-model:value=\"bannerIDList\"\n    placeholder=\"选择ban",
+        "content": "![](http://python.fengfengzhidao.com/pic/20230305181541.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230305181558.png)\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230305181612.png)\n\n\n\n\n\n## select显示图片\n\n```Vue\n\u003ca-select\n    ref=\"select\"\n    v-model:value=\"bannerIDList\"\n    placeholder=\"选择banner\"\n    mode=\"multiple\"\n    @change=\"bannerChange\"\n\u003e\n  \u003ca-select-option :value=\"item.id\" v-for=\"item in data.imageNameList\" :key=\"item.id\"\u003e\n    \u003cimg :src=\"item.path\" alt=\"\" height=\"30\" style=\"border-radius: 5px; margin-right: 10px\"\u003e\n    \u003cspan\u003e{{ item.name }}\u003c/span\u003e\n  \u003c/a-select-option\u003e\n  \u003ctemplate #tagRender=\"{ value: val, label, closable, onClose, option }\"\u003e\n    \u003cimg :src=\"getLabel(label)\" height=\"30\" style=\"border-radius: 5px; margin-right: 5px\"/\u003e\n  \u003c/template\u003e\n\u003c/a-select\u003e\n       \n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\nimport {imageNameListApi} from \"@/api/image_api\";\nimport {createMenuApi, updateMenuApi} from \"@/api/menu_api\";\nimport {message} from \"ant-design-vue\";\n\nconst bannerIDList = ref([])\n\nconst state = reactive({\n  image_sort_list: []\n})\n\n// 获取图片数据\nasync function getData() {\n  let res = await imageNameListApi()\n  data.imageNameList = res.data\n}\n\n// 选中之后的回显\nfunction getLabel(label) {\n  return label[0].props.src\n}\n\n// 选择菜单图片\nfunction bannerChange(idList) {\n  state.image_sort_list = []\n  for (let i = 0; i \u003c idList.length; i++) {\n    state.image_sort_list.push({\n      image_id: idList[i],\n      sort: i\n    })\n  }\n}\ngetData()\nconst data = reactive({\n  imageNameList: []\n})\n\n\u003c/script\u003e\n```\n\nbanner的先后顺序，就是点击的顺序\n\n\n\n\n\n## 添加菜单，更新菜单\n\nabstract是一个字符串，添加之前，要变成列表\n\n添加完成之后，两个都要清空\n\nimage_sort_list是用户改变banner的时候进行修改的\n\n```Vue\n\n\u003ca-modal :title=\"editID ? '编辑菜单' : '添加菜单'\" v-model:visible=\"data.visible\" @ok=\"handleOK\"\n\u003e\n  \u003ca-form\n      :model=\"state\"\n      name=\"basic\"\n      ref=\"formRef\"\n      :label-col=\"{ span: 4 }\"\n      :wrapper-col=\"{ span: 20 }\"\n      autocomplete=\"off\"\n  \u003e\n    \u003ca-form-item label=\"菜单名称\" name=\"title\" has-feedback\n                 :rules=\"[{ required: true, message: '请输入菜单名称' ,trigger: 'blur'}]\"\u003e\n      \u003ca-input v-model:value=\"state.title\" placeholder=\"菜单名称\"/\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"菜单路径\" name=\"path\" has-feedback\n                 :rules=\"[{ required: true, message: '请输入菜单路径' ,trigger: 'blur'}]\"\u003e\n      \u003ca-input v-model:value=\"state.path\" placeholder=\"菜单路径\"/\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"slogan\" name=\"slogan\" has-feedback\u003e\n      \u003ca-input v-model:value=\"state.slogan\" placeholder=\"slogan\"/\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"菜单简介\" name=\"abstract\" has-feedback\u003e\n      \u003ca-textarea\n          v-model:value=\"state_abstract\"\n          placeholder=\"菜单简介,多个简介用换行分隔\"\n          :auto-size=\"{ minRows: 2, maxRows: 5 }\"\n      /\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"banner时间\" name=\"banner_time\" has-feedback\u003e\n      \u003ca-input-number v-model:value=\"state.banner_time\" placeholder=\"banner时间\"/\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"简介时间\" name=\"abstract_time\" has-feedback\u003e\n      \u003ca-input-number v-model:value=\"state.abstract_time\" placeholder=\"简介时间\"/\u003e\n    \u003c/a-form-item\u003e\n    \u003ca-form-item label=\"序号\" name=\"sort\" has-feedback\u003e\n      \u003ca-input-number v-model:value=\"state.sort\" placeholder=\"序号\"/\u003e\n    \u003c/a-form-item\u003e\n\n    \u003ca-form-item label=\"banner选择\"\u003e\n      \u003ca-select\n          ref=\"select\"\n          v-model:value=\"bannerIDList\"\n          placeholder=\"选择banner\"\n          mode=\"multiple\"\n          @change=\"bannerChange\"\n      \u003e\n        \u003ca-select-option :value=\"item.id\" v-for=\"item in data.imageNameList\" :key=\"item.id\"\u003e\n          \u003cimg :src=\"item.path\" alt=\"\" height=\"30\" style=\"border-radius: 5px; margin-right: 10px\"\u003e\n          \u003cspan\u003e{{ item.name }}\u003c/span\u003e\n        \u003c/a-select-option\u003e\n        \u003ctemplate #tagRender=\"{ value: val, label, closable, onClose, option }\"\u003e\n          \u003cimg :src=\"getLabel(label)\" height=\"30\" style=\"border-radius: 5px; margin-right: 5px\"/\u003e\n        \u003c/template\u003e\n      \u003c/a-select\u003e\n    \u003c/a-form-item\u003e\n\n  \u003c/a-form\u003e\n\n\u003c/a-modal\u003e\n\n   \n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\nimport {imageNameListApi} from \"@/api/image_api\";\nimport {createMenuApi, updateMenuApi} from \"@/api/menu_api\";\nimport {message} from \"ant-design-vue\";\n\nconst state_abstract = ref(\"\")\nconst bannerIDList = ref([])\nconst _state = {\n  abstract_time: 7,\n  banner_time: 7,\n  path: \"\",\n  slogan: \"\",\n  sort: 0,\n  title: \"\",\n  abstract: [],\n  image_sort_list: []\n}\nconst state = reactive({\n  abstract_time: 7,\n  banner_time: 7,\n  path: \"\",\n  slogan: \"\",\n  sort: 0,\n  title: \"\",\n  abstract: [],\n  image_sort_list: []\n})\nconst formRef = ref(null)\n\n// 获取图片数据\nasync function getData() {\n  let res = await imageNameListApi()\n  data.imageNameList = res.data\n}\n\n// 选中之后的回显\nfunction getLabel(label) {\n  return label[0].props.src\n}\n// 添加菜单，更新菜单\nasync function handleOK() {\n  try {\n    formRef.value.validate()\n  } catch (e) {\n    return\n  }\n  state.abstract = state_abstract.value.split(\"\\n\")\n  let res\n\n  if (editID.value) {\n    res = await updateMenuApi(editID.value, state)\n  } else {\n    res = await createMenuApi(state)\n  }\n\n  if (res.code) {\n    message.error(res.msg)\n    return\n  }\n  state_abstract.value = \"\"\n  bannerIDList.value = []\n  data.visible = false\n  message.success(res.msg)\n  gvbTable.value.ExportList()\n  return\n}\n\n// 选择菜单图片\nfunction bannerChange(idList) {\n  state.image_sort_list = []\n  for (let i = 0; i \u003c idList.length; i++) {\n    state.image_sort_list.push({\n      image_id: idList[i],\n      sort: i\n    })\n  }\n\n}\n\ngetData()\nconst gvbTable = ref(null)\nconst editID = ref(0)\nconst data = reactive({\n  visible: false,\n  imageNameList: []\n})\n\nfunction addMenu() {\n  editID.value = 0\n  data.visible = true\n  Object.assign(state, _state)\n}\n\nfunction updateModal(record) {\n  editID.value = record.id\n  state.abstract_time = record.abstract_time\n  state.banner_time = record.banner_time\n  state.path = record.path\n  state.slogan = record.slogan\n  state.sort = record.sort\n  state.title = record.title\n\n  state.abstract = record.abstract\n  state_abstract.value = record.abstract.join(\"\\n\")\n\n  bannerIDList.value = []\n  state.image_sort_list = []\n  for (let i = 0; i \u003c record.banners.length; i++) {\n    bannerIDList.value.push(record.banners[i].id)\n    state.image_sort_list.push({\n      image_id: record.banners[i].id,\n      sort: i\n    })\n  }\n  data.visible = true\n}\n\n\u003c/script\u003e\n```\n\n\n\n## 图片按照一行三列排\n\n```Vue\ndisplay: grid; \ngrid-template-columns: repeat(3, 1fr);\ngrid-column-gap: 5px; \ngrid-row-gap: 5px;\n```\n\n\n\n![](http://python.fengfengzhidao.com/pic/20230305182032.png)\n\n\n\n完整代码\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv\u003e\n\n    \u003ca-modal :title=\"editID ? '编辑菜单' : '添加菜单'\" v-model:visible=\"data.visible\" @ok=\"handleOK\"\n    \u003e\n      \u003ca-form\n          :model=\"state\"\n          name=\"basic\"\n          ref=\"formRef\"\n          :label-col=\"{ span: 4 }\"\n          :wrapper-col=\"{ span: 20 }\"\n          autocomplete=\"off\"\n      \u003e\n        \u003ca-form-item label=\"菜单名称\" name=\"title\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入菜单名称' ,trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"state.title\" placeholder=\"菜单名称\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"菜单路径\" name=\"path\" has-feedback\n                     :rules=\"[{ required: true, message: '请输入菜单路径' ,trigger: 'blur'}]\"\u003e\n          \u003ca-input v-model:value=\"state.path\" placeholder=\"菜单路径\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"slogan\" name=\"slogan\" has-feedback\u003e\n          \u003ca-input v-model:value=\"state.slogan\" placeholder=\"slogan\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"菜单简介\" name=\"abstract\" has-feedback\u003e\n          \u003ca-textarea\n              v-model:value=\"state_abstract\"\n              placeholder=\"菜单简介,多个简介用换行分隔\"\n              :auto-size=\"{ minRows: 2, maxRows: 5 }\"\n          /\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"banner时间\" name=\"banner_time\" has-feedback\u003e\n          \u003ca-input-number v-model:value=\"state.banner_time\" placeholder=\"banner时间\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"简介时间\" name=\"abstract_time\" has-feedback\u003e\n          \u003ca-input-number v-model:value=\"state.abstract_time\" placeholder=\"简介时间\"/\u003e\n        \u003c/a-form-item\u003e\n        \u003ca-form-item label=\"序号\" name=\"sort\" has-feedback\u003e\n          \u003ca-input-number v-model:value=\"state.sort\" placeholder=\"序号\"/\u003e\n        \u003c/a-form-item\u003e\n\n        \u003ca-form-item label=\"banner选择\"\u003e\n          \u003ca-select\n              ref=\"select\"\n              v-model:value=\"bannerIDList\"\n              placeholder=\"选择banner\"\n              mode=\"multiple\"\n              @change=\"bannerChange\"\n          \u003e\n            \u003ca-select-option :value=\"item.id\" v-for=\"item in data.imageNameList\" :key=\"item.id\"\u003e\n              \u003cimg :src=\"item.path\" alt=\"\" height=\"30\" style=\"border-radius: 5px; margin-right: 10px\"\u003e\n              \u003cspan\u003e{{ item.name }}\u003c/span\u003e\n            \u003c/a-select-option\u003e\n            \u003ctemplate #tagRender=\"{ value: val, label, closable, onClose, option }\"\u003e\n              \u003cimg :src=\"getLabel(label)\" height=\"30\" style=\"border-radius: 5px; margin-right: 5px\"/\u003e\n            \u003c/template\u003e\n          \u003c/a-select\u003e\n        \u003c/a-form-item\u003e\n\n      \u003c/a-form\u003e\n\n    \u003c/a-modal\u003e\n\n    \u003cGVBTable\n        :columns=\"data.columns\"\n        base-url=\"/api/menus\"\n        like-title=\"搜索菜单名称\"\n        ref=\"gvbTable\"\n        default-delete\n    \u003e\n      \u003ctemplate #add\u003e\n        \u003ca-button type=\"primary\" @click=\"addMenu\"\u003e添加\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #edit=\"{record}\"\u003e\n        \u003ca-button type=\"primary\" @click=\"updateModal(record)\"\u003e编辑\u003c/a-button\u003e\n      \u003c/template\u003e\n      \u003ctemplate #cell=\"{column, record}\"\u003e\n        \u003ctemplate v-if=\"column.key === 'abstract'\"\u003e\n          \u003cdiv v-for=\"(item, index) in record.abstract\" :key=\"index\"\u003e{{ item }}\u003c/div\u003e\n        \u003c/template\u003e\n        \u003ctemplate v-if=\"column.key === 'banners'\"\u003e\n          \u003cdiv style=\"display: grid; grid-template-columns: repeat(3, 1fr); grid-column-gap: 5px; grid-row-gap: 5px\"\u003e\n            \u003cimg v-for=\"item in record.banners\" :key=\"item.id\" :src=\"item.path\" height=\"40\"\n                 style=\"border-radius: 5px;\"\u003e\n          \u003c/div\u003e\n\n        \u003c/template\u003e\n\n      \u003c/template\u003e\n    \u003c/GVBTable\u003e\n  \u003c/div\u003e\n\n\u003c/template\u003e\n\n\u003cscript setup\u003e\nimport GVBTable from \"@/components/admin/gvb_table.vue\"\nimport {reactive, ref} from \"vue\";\nimport {imageNameListApi} from \"@/api/image_api\";\nimport {createMenuApi, updateMenuApi} from \"@/api/menu_api\";\nimport {message} from \"ant-design-vue\";\n\nconst state_abstract = ref(\"\")\nconst bannerIDList = ref([])\nconst _state = {\n  abstract_time: 7,\n  banner_time: 7,\n  path: \"\",\n  slogan: \"\",\n  sort: 0,\n  title: \"\",\n  abstract: [],\n  image_sort_list: []\n}\nconst state = reactive({\n  abstract_time: 7,\n  banner_time: 7,\n  path: \"\",\n  slogan: \"\",\n  sort: 0,\n  title: \"\",\n  abstract: [],\n  image_sort_list: []\n})\nconst formRef = ref(null)\n\n// 获取图片数据\nasync function getData() {\n  let res = await imageNameListApi()\n  data.imageNameList = res.data\n}\n\n// 选中之后的回显\nfunction getLabel(label) {\n  return label[0].props.src\n}\n// 添加菜单，更新菜单\nasync function handleOK() {\n  try {\n    formRef.value.validate()\n  } catch (e) {\n    return\n  }\n  state.abstract = state_abstract.value.split(\"\\n\")\n  let res\n\n  if (editID.value) {\n    res = await updateMenuApi(editID.value, state)\n  } else {\n    res = await createMenuApi(state)\n  }\n\n  if (res.code) {\n    message.error(res.msg)\n    return\n  }\n  state_abstract.value = \"\"\n  bannerIDList.value = []\n  data.visible = false\n  message.success(res.msg)\n  gvbTable.value.ExportList()\n  return\n}\n\n// 选择菜单图片\nfunction bannerChange(idList) {\n  state.image_sort_list = []\n  for (let i = 0; i \u003c idList.length; i++) {\n    state.image_sort_list.push({\n      image_id: idList[i],\n      sort: i\n    })\n  }\n\n}\n\ngetData()\nconst gvbTable = ref(null)\nconst editID = ref(0)\nconst data = reactive({\n  columns: [\n    {title: 'id', dataIndex: 'id', key: 'id'},\n    {title: '菜单标题', dataIndex: 'title', key: 'title'},\n    {title: '路径', dataIndex: 'path', key: 'path'},\n    {title: 'slogan', dataIndex: 'slogan', key: 'slogan'},\n    {title: '介绍', dataIndex: 'abstract', key: 'abstract'},\n    {title: '介绍切换时间', dataIndex: 'abstract_time', key: 'abstract_time'},\n    {title: 'banner切换时间', dataIndex: 'banner_time', key: 'banner_time'},\n    {title: '排序', dataIndex: 'sort', key: 'sort'},\n    {title: 'banner', dataIndex: 'banners', key: 'banners'},\n    {title: '发布时间', dataIndex: 'created_at', key: 'created_at'},\n    {title: '操作', dataIndex: 'action', key: 'action'},\n  ],\n  visible: false,\n  imageNameList: []\n})\n\nfunction addMenu() {\n  editID.value = 0\n  data.visible = true\n  Object.assign(state, _state)\n}\n\nfunction updateModal(record) {\n  editID.value = record.id\n  state.abstract_time = record.abstract_time\n  state.banner_time = record.banner_time\n  state.path = record.path\n  state.slogan = record.slogan\n  state.sort = record.sort\n  state.title = record.title\n\n  state.abstract = record.abstract\n  state_abstract.value = record.abstract.join(\"\\n\")\n\n  bannerIDList.value = []\n  state.image_sort_list = []\n  for (let i = 0; i \u003c record.banners.length; i++) {\n    bannerIDList.value.push(record.banners[i].id)\n    state.image_sort_list.push({\n      image_id: record.banners[i].id,\n      sort: i\n    })\n  }\n  data.visible = true\n}\n\n\u003c/script\u003e\n```",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "枫枫知道",
+        "link": "",
+        "banner_id": 5,
+        "banner_url": "/uploads/file/33.jpg",
+        "tags": [
+          "菜单"
+        ]
+      },
+      "id": "EdcWwYYBMeB77WN1jEYG"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 20:39:31",
+        "updated_at": "2023-03-09 00:37:32",
+        "title": "tabs组件",
+        "keyword": "tabs组件",
+        "abstract": "\n\nstore.js\n\nimport {defineStore} from 'pinia'\nimport {message} from 'ant-design-vue';\n\nexport const ",
+        "content": "![](http://python.fengfengzhidao.com/pic/20230305095601.png)\n\n\n\nstore.js\n\n```Vue\nimport {defineStore} from 'pinia'\nimport {message} from 'ant-design-vue';\n\nexport const useStore = defineStore('gvb', {\n    state: () =\u003e {\n        return {\n            tabList: []\n        }\n    },\n    actions: {\n        // 添加tab\n        addTab(tab) {\n            // 已经存在，就不要再添加了\n            // 不存在的时候，进行添加\n            if (this.tabList.findIndex((item) =\u003e item.name === tab.name) === -1) {\n                this.tabList.push({name: tab.name, title: tab.title})\n            }\n        },\n        // tabs的持久化存储\n        saveTabs() {\n            localStorage.setItem(\"tabs\", JSON.stringify(this.tabList))\n        },\n        // 加载组件\n        loadTabs() {\n            let tabs = localStorage.getItem(\"tabs\")\n            if (tabs === null) {\n                this.tabList = [{title: \"首页\", name: \"home\"}]\n                return\n            }\n            this.tabList = JSON.parse(tabs)\n        },\n        // 移除tab\n        removeTab(tab) {\n            let index = this.tabList.findIndex((item) =\u003e item.name === tab.name)\n            this.tabList.splice(index, 1)\n            return index\n        },\n        // 移除全部tab\n        removeTabAll() {\n            this.tabList = [{title: \"首页\", name: \"home\"}]\n        }\n    }\n})\n\n\n```\n\n\n\ngvb_tabs.vue\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv class=\"gvb_tabs\"\u003e\n    \u003cdiv :class=\"isActive(item)\"\n         v-for=\"(item, index) in store.tabList\"\n         :key=\"index\"\n         @click=\"checkTab(item)\"\n    \u003e\n      {{ item.title }}\n      \u003cspan @click.stop=\"removeTab(item)\" v-if=\"item.name !== 'home'\" class=\"gvb_tab_remove_icon\"\u003e×\u003c/span\u003e\n    \u003c/div\u003e\n    \u003cdiv class=\"gvb_tab_item remove_all\" @click=\"removeTabAll\"\u003e\n      全部关闭\n    \u003c/div\u003e\n  \u003c/div\u003e\n\u003c/template\u003e\n\n```\n\n\n\n```Vue\n\u003cscript setup\u003e\nimport {useStore} from \"@/stores/store\";\nimport {useRoute, useRouter} from \"vue-router\";\n\nconst store = useStore()\nconst route = useRoute()\nconst router = useRouter()\n// 是否选中\nfunction isActive(item) {\n  // 判断当前路由是否和item上的路由匹配\n  // 还要判断是不是home\n  if (route.name === item.name) {\n    return \"gvb_tab_item active\"\n  }\n  return \"gvb_tab_item\"\n}\n// 切换路由\nfunction checkTab(item) {\n  router.push({\n    name: item.name\n  })\n}\n// 移除tab\nfunction removeTab(item) {\n  let index = store.removeTab(item)\n  // 如果删除的是当前所在的tab\n  // 那就应该向前走一步\n  if (item.name === route.name) {\n    // 当前tab\n    // 前一个路由的路由索引\n    let beforeIndex = index - 1\n    // 前一个的路由\n    let beforeName = store.tabList[beforeIndex].name\n    router.push({\n      name: beforeName\n    })\n  }\n}\n// 关闭全部\nfunction removeTabAll() {\n  store.removeTabAll()\n  router.push({\n    name: \"home\"\n  })\n}\n// 加载路由\nstore.loadTabs()\n// 监听刷新\nwindow.onbeforeunload = function () {\n  // 保存\n  store.saveTabs()\n  return undefined\n}\n\n\u003c/script\u003e\n\n```\n\n\n\n```Vue\n\u003cstyle lang=\"scss\"\u003e\n.gvb_tabs {\n  height: 30px;\n  border-color: var(--order);\n  border-style: solid;\n  border-width: 1px 0 1px 0;\n  background-color: var(--card_bg);\n  display: flex;\n  justify-content: left;\n  align-items: center;\n  position: relative;\n\n  .gvb_tab_item {\n    background-color: var(--card_bg);\n    border: 1px solid var(--card_boder);\n    padding: 0 10px;\n    margin-right: 10px;\n    cursor: pointer;\n    color: var(--text);\n    display: flex;\n    align-items: center;\n\n    .gvb_tab_remove_icon {\n      cursor: pointer;\n      width: 12px;\n      height: 12px;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      margin-left: 5px;\n      border-radius: 50%;\n\n      \u0026:hover {\n        background-color: #f0eeee;\n      }\n    }\n\n    \u0026:first-child {\n      margin-left: 20px;\n    }\n\n    \u0026.active {\n      background-color: var(--active);\n      border-color: var(--active);\n      color: white;\n\n      \u0026::before {\n        display: inline-block;\n        content: \"\";\n        width: 12px;\n        height: 12px;\n        background-color: white;\n        border-radius: 50%;\n        margin-right: 5px;\n      }\n\n      .gvb_tab_remove_icon:hover {\n        background-color: #8fbef3;\n      }\n    }\n\n    \u0026.remove_all {\n      position: absolute;\n      right: 10px;\n\n    }\n  }\n}\n\u003c/style\u003e\n\n```\n\n\n\n\n\n## 添加tab\n\n```Vue\nstore.addTab({\n  name: key.name,\n  title: key.title,\n})\n\n```\n\n这样做的好处就是，可以将icon放入tab，更加灵活\n\nrouter.js更加的简洁\n\n\n\n## 删除tab\n\n主要难点就是，如果删除的是当前所在的tab，那就需要向移动一位",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 5,
+        "banner_url": "/uploads/file/33.jpg",
+        "tags": [
+          "后台"
+        ]
+      },
+      "id": "Gtc7wYYBMeB77WN13UZE"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-08 22:18:43",
+        "updated_at": "2023-03-09 00:37:52",
+        "title": "表格组件拆分",
+        "keyword": "表格组件拆分",
+        "abstract": "这是表格组件的文章简介",
+        "content": "1234sdjgsgkskdglgl",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 1,
+        "user_nick_name": "admin",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "枫枫知道",
+        "link": "https://fontawesome.dashgame.com/",
+        "banner_id": 12,
+        "banner_url": "/uploads/file/235628ZxKUe.jpg",
+        "tags": [
+          "后台"
+        ]
+      },
+      "id": "IteWwYYBMeB77WN1rUbQ"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-11 00:45:16",
+        "updated_at": "2023-03-11 00:45:16",
+        "title": "个人中心",
+        "keyword": "个人中心",
+        "abstract": "我的信息\n\n\n\n\u003ctemplate\u003e\n  \u003cdiv class=\"gvb_user_info_bg\"\u003e\n    \u003cdiv class=\"gvb_user_info_view\"\u003e\n      \u003cdiv ",
+        "content": "## 我的信息\n\n![](https://secure2.wostatic.cn/static/69Lgp3Bfwf1SKkTeGQBKRa/image.png?auth_key=1678453975-asXSYoePE453pggBWduXPt-0-3a70473c1aa70be79bec70e715bff089)\n\n\n\n```Vue\n\u003ctemplate\u003e\n  \u003cdiv class=\"gvb_user_info_bg\"\u003e\n    \u003cdiv class=\"gvb_user_info_view\"\u003e\n      \u003cdiv class=\"user_head\"\u003e\n        个人信息\n      \u003c/div\u003e\n      \u003cdiv class=\"body user_info_view\"\u003e\n        \u003ca-form :label-col=\"{ span: 2 }\"\n                :wrapper-col=\"{ span: 22 }\"\u003e\n          \u003ca-form-item label=\"昵称\"\u003e\n            \u003ca-input placeholder=\"昵称\" class=\"user_ipt\"\u003e\u003c/a-input\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"我的签名\"\u003e\n            \u003ca-textarea placeholder=\"我的签名\" class=\"user_ipt\" :auto-size=\"{ minRows: 2, maxRows: 5 }\"\u003e\u003c/a-textarea\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"我的博客\"\u003e\n            \u003ca-input placeholder=\"我的博客\" class=\"user_ipt\"\u003e\u003c/a-input\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"邮箱\"\u003e\n            \u003cspan\u003e556454545@qq.com\u003c/span\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"现地址\"\u003e\n            \u003cspan\u003e四川成都\u003c/span\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"当前角色\"\u003e\n            \u003cspan\u003e管理员\u003c/span\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"注册来源\"\u003e\n            \u003cspan\u003eQQ\u003c/span\u003e\n          \u003c/a-form-item\u003e\n          \u003ca-form-item label=\"我的积分\"\u003e\n            \u003cspan\u003e658\u003c/span\u003e\n          \u003c/a-form-item\u003e\n        \u003c/a-form\u003e\n      \u003c/div\u003e\n      \u003cdiv class=\"user_head\"\u003e\n        每日奖励\n      \u003c/div\u003e\n      \u003cdiv class=\"body daily_reward\"\u003e\n        \u003cdiv\u003e\n          \u003cimg src=\"../../../assets/icon/ok.svg\" alt=\"\"\u003e\n          每日登陆 +2\n        \u003c/div\u003e\n        \u003cdiv\u003e\n          \u003cimg src=\"../../../assets/icon/ok.svg\" alt=\"\"\u003e\n          发文 +3\n        \u003c/div\u003e\n        \u003cdiv\u003e\n          \u003cimg src=\"../../../assets/icon/ok.svg\" alt=\"\"\u003e\n          发评论 +1\n        \u003c/div\u003e\n        \u003cdiv\u003e\n          \u003cimg src=\"../../../assets/icon/error.svg\" alt=\"\"\u003e\n          群聊 +0.5\n        \u003c/div\u003e\n      \u003c/div\u003e\n\n      \u003cdiv class=\"user_head\"\u003e\n        成就勋章\n      \u003c/div\u003e\n      \u003cul class=\"body medal\"\u003e\n        \u003cli\u003e\n          \u003cimg src=\"https://i0.hdslb.com/bfs/face/21fdd1bcd9ad1b52d5725026d71c185a68681644.png\" alt=\"\"\u003e\n          \u003cdiv class=\"name\"\u003e初来乍到\u003c/div\u003e\n        \u003c/li\u003e\n        \u003cli\u003e\n          \u003cimg src=\"https://i0.hdslb.com/bfs/face/51ca16136e570938450bca360f28761ceb609f33.png\" alt=\"\"\u003e\n          \u003cdiv class=\"name\"\u003e有爱萌新\u003c/div\u003e\n        \u003c/li\u003e\n        \u003cli\u003e\n          \u003cimg src=\"https://i0.hdslb.com/bfs/face/89491e6cee3b1c88292b618a58703ab614665f66.png\" alt=\"\"\u003e\n          \u003cdiv class=\"name\"\u003e老司机\u003c/div\u003e\n        \u003c/li\u003e\n      \u003c/ul\u003e\n\n\n      \u003cdiv class=\"user_head\"\u003e\n        操作\n      \u003c/div\u003e\n      \u003cdiv class=\"body actions\"\u003e\n        \u003ca-button type=\"primary\"\u003e绑定邮箱\u003c/a-button\u003e\n        \u003ca-button type=\"primary\"\u003e修改密码\u003c/a-button\u003e\n        \u003ca-button type=\"danger\"\u003e注销退出\u003c/a-button\u003e\n      \u003c/div\u003e\n\n\n    \u003c/div\u003e\n  \u003c/div\u003e\n\u003c/template\u003e\n```\n\n\n\n```Vue\n\u003cstyle lang=\"scss\"\u003e\n.gvb_user_info_bg {\n  background-color: var(--card_bg);\n  display: flex;\n  justify-content: center;\n  padding: 20px;\n\n  .gvb_user_info_view {\n    width: 1000px;\n  }\n\n  .user_head {\n    font-size: 18px;\n    display: flex;\n    align-items: center;\n    font-weight: 600;\n    margin-bottom: 10px;\n\n    \u0026::before {\n      width: 3px;\n      height: 1.5rem;\n      display: inline-block;\n      content: \"\";\n      margin-right: 5px;\n      background-color: var(--active);\n    }\n  }\n\n  .body {\n    margin-bottom: 20px;\n  }\n\n  .user_info_view {\n    .ant-form-item {\n      margin: 0 0 5px;\n    }\n\n    .user_ipt {\n      width: 400px;\n    }\n  }\n\n  .actions {\n\n    .ant-btn {\n      margin-right: 10px;\n    }\n  }\n\n  .medal {\n    display: flex;\n    flex-wrap: wrap;\n\n    li {\n      margin-right: 20px;\n\n      .name {\n        text-align: center;\n      }\n\n      \u0026:last-child {\n        margin-right: 0;\n      }\n\n      img {\n        width: 60px;\n        height: 60px;\n      }\n    }\n  }\n\n  .daily_reward {\n    display: flex;\n\n    \u003e div {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      margin-right: 50px;\n    }\n\n    img {\n      width: 60px;\n      height: 60px;\n    }\n  }\n\n\n}\n\u003c/style\u003e\n```\n\n",
+        "look_count": 0,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 1,
+        "user_id": 2,
+        "user_nick_name": "zhangsan",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 14,
+        "banner_url": "/uploads/file/235920pM89Q.jpg",
+        "tags": [
+          "前端"
+        ]
+      },
+      "id": "2iBpzIYBenTVo4BRkquV"
+    },
+    {
+      "row": {
+        "id": "",
+        "created_at": "2023-03-18 19:20:26",
+        "updated_at": "2023-03-18 19:20:26",
+        "title": "普通用户的文章",
+        "keyword": "普通用户的文章",
+        "abstract": "1234",
+        "content": "你好啊",
+        "look_count": 5,
+        "comment_count": 0,
+        "digg_count": 0,
+        "collects_count": 0,
+        "user_id": 14,
+        "user_nick_name": "普通用户123",
+        "user_avatar": "/uploads/avatar/default.png",
+        "category": "后台课程",
+        "source": "",
+        "link": "",
+        "banner_id": 16,
+        "banner_url": "/uploads/file/105747KJAJa.jpg",
+        "tags": [
+          "后台"
+        ]
+      },
+      "id": "R05z9IYBUbEPfcjaDSjI"
+    }
+  ],
+  "mapping": {
+    "mappings": {
+      "properties": {
+        "abstract": {
+          "type": "text"
+        },
+        "banner_id": {
+          "type": "integer"
+        },
+        "banner_url": {
+          "type": "keyword"
+        },
+        "category": {
+          "type": "keyword"
+        },
+        "coll_count": {
+          "type": "long"
+        },
+        "collects_count": {
+          "type": "integer"
+        },
+        "comment_count": {
+          "type": "integer"
+        },
+        "content": {
+          "type": "text"
+        },
+        "created_at": {
+          "format": "[yyyy-MM-dd HH:mm:ss]",
+          "null_value": "null",
+          "type": "date"
+        },
+        "digg_count": {
+          "type": "integer"
+        },
+        "id": {
+          "fields": {
+            "keyword": {
+              "ignore_above": 256,
+              "type": "keyword"
+            }
+          },
+          "type": "text"
+        },
+        "keyword": {
+          "type": "keyword"
+        },
+        "link": {
+          "type": "keyword"
+        },
+        "look_count": {
+          "type": "integer"
+        },
+        "source": {
+          "type": "keyword"
+        },
+        "tags": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text"
+        },
+        "updated_at": {
+          "format": "[yyyy-MM-dd HH:mm:ss]",
+          "null_value": "null",
+          "type": "date"
+        },
+        "user_avatar": {
+          "type": "keyword"
+        },
+        "user_id": {
+          "type": "integer"
+        },
+        "user_nick_name": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

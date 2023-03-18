@@ -10,20 +10,26 @@ import (
 type Option struct {
 	DB   bool
 	User string // -u admin  -u user
-	ES   string // -es create  -es delete
+	ES   bool   // -es create  -es delete
+	Dump string
+	Load string
 }
 
 // Parse 解析命令行参数
 func Parse() Option {
 	db := sys_flag.Bool("db", false, "初始化数据库")
 	user := sys_flag.String("u", "", "创建用户")
-	es := sys_flag.String("es", "", "es操作")
+	es := sys_flag.Bool("es", false, "es操作")
+	dump := sys_flag.String("dump", "", "将索引下的数据导出为json文件")
+	load := sys_flag.String("load", "", "导入json数据，并创建索引")
 	// 解析命令行参数写入注册的flag里
 	sys_flag.Parse()
 	return Option{
 		DB:   *db,
 		User: *user,
 		ES:   *es,
+		Dump: *dump,
+		Load: *load,
 	}
 }
 
@@ -55,11 +61,13 @@ func SwitchOption(option Option) {
 		CreateUser(option.User)
 		return
 	}
-	if option.ES == "create" {
-		// 连接es
+	if option.ES {
 		global.ESClient = core.EsConnect()
-		EsCreateIndex()
+		if option.Dump != "" {
+			DumpIndex(option.Dump)
+		}
+		if option.Load != "" {
+			LoadIndex(option.Load)
+		}
 	}
-	//fmt.Printf("%#v\n", option.User)
-	//sys_flag.Usage()
 }
