@@ -6,6 +6,7 @@ import (
 	"gvb_server/flag"
 	"gvb_server/global"
 	"gvb_server/routers"
+	"gvb_server/service/cron_ser"
 	"gvb_server/utils"
 )
 
@@ -31,11 +32,12 @@ func main() {
 		flag.SwitchOption(option)
 		return
 	}
-
 	// 连接redis
 	global.Redis = core.ConnectRedis()
 	// 连接es
 	global.ESClient = core.EsConnect()
+
+	go cron_ser.CronInit()
 
 	router := routers.InitRouter()
 
