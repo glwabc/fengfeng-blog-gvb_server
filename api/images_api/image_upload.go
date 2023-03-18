@@ -6,6 +6,7 @@ import (
 	"gvb_server/models/res"
 	"gvb_server/service"
 	"gvb_server/service/image_ser"
+	"gvb_server/utils/jwts"
 	"io/fs"
 	"os"
 )
@@ -21,6 +22,12 @@ import (
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (ImagesApi) ImageUploadView(c *gin.Context) {
+	_claims, _ := c.Get("claims")
+	claims := _claims.(*jwts.CustomClaims)
+	if claims.Role == 3 {
+		res.FailWithMessage("游客用户不可上传图片", c)
+		return
+	}
 	// 上传多个图片
 	form, err := c.MultipartForm()
 	if err != nil {
