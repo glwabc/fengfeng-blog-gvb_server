@@ -38,12 +38,12 @@ upload:
   path: uploads/file
 qq:
   app_id: "101974593"
-  key: db7dff0d0159b078ec225b1648b8ef50
+  key: xxx
   redirect: http://blog.fengfengzhidao.com/login?flag=qq
 qi_niu:
   enable: false
-  access_key: UMM244VUXpo
-  secret_key: 0WV44A5EGr44uI0jlS
+  access_key: xx
+  secret_key: xx
   bucket: fengfengzhidao
   cdn: http://python.fengfengzhidao.com/
   zone: z2
@@ -53,7 +53,7 @@ email:
   host: smtp.qq.com
   port: 465
   user: 2974771769@qq.com
-  password: gfpiscbiaedwddcf
+  password: xxx
   default_from_email: 枫枫知道
   use_ssl: true
   user_tls: false

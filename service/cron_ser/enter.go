@@ -13,7 +13,7 @@ func CronInit() {
 		return
 	}
 	cron := gocron.NewScheduler(timezone)
-	cron.Cron("* * * * *").Do(SyncArticleData)
-	cron.Cron("* * * * *").Do(SyncCommentData)
+	cron.Cron("0 0 0 * *").Do(SyncArticleData)
+	cron.Cron("0 0 0 * *").Do(SyncCommentData)
 	cron.StartBlocking()
 }
