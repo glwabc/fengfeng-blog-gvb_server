@@ -20,6 +20,9 @@ type EsIndexResponse struct {
 	Mapping interface{}    `json:"mapping"`
 }
 
+// DumpIndex
+// go run main.go -es -dump article_index
+// go run main.go -es -dump full_text_index
 func DumpIndex(index string) {
 	result, err := global.ESClient.
 		Search(index).
