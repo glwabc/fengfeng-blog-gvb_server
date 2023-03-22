@@ -1734,6 +1734,45 @@
                 }
             }
         },
+        "/api/menus/detail": {
+            "get": {
+                "description": "菜单详情,根据路径查",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单管理"
+                ],
+                "summary": "菜单详情,根据路径查",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/menu_api.MenuResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/menus/{id}": {
             "get": {
                 "description": "菜单详情",

@@ -13,4 +13,5 @@ func (router RouterGroup) MenuRouter() {
 	router.PUT("menus/:id", middleware.JwtAdmin(), app.MenuUpdateView)
 	router.DELETE("menus", middleware.JwtAdmin(), app.MenuRemoveView)
 	router.GET("menus/:id", app.MenuDetailView)
+	router.GET("menus/detail", app.MenuDetailByPathView)
 }

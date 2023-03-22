@@ -2181,6 +2181,28 @@ paths:
       summary: 更新菜单
       tags:
       - 菜单管理
+  /api/menus/detail:
+    get:
+      description: 菜单详情,根据路径查
+      parameters:
+      - in: query
+        name: path
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/menu_api.MenuResponse'
+              type: object
+      summary: 菜单详情,根据路径查
+      tags:
+      - 菜单管理
   /api/messages:
     get:
       description: 用户与其他人的消息列表
