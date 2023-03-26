@@ -45,7 +45,7 @@ type GroupResponse struct {
 	MsgType     ctype.MsgType `json:"msg_type"`     // 聊天类型
 	Content     string        `json:"content"`      // 聊天的内容
 	OnlineCount int           `json:"online_count"` // 在线人数
-	Date        time.Time     `json:"date"`         // 消息的时间
+	Date        time.Time     `json:"created_at"`   // 消息的时间
 }
 
 // ChatGroupView 群聊接口
@@ -83,6 +83,23 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 	// 需要去生成昵称，根据昵称首字关联头像地址
 	// 昵称关联 addr
 	logrus.Infof("%s %s 连接成功", addr, chatUser.NickName)
+	SendMsg(addr, GroupResponse{
+		NickName:    chatUser.NickName,
+		Avatar:      chatUser.Avatar,
+		MsgType:     SystemMsg,
+		Content:     "进入聊天室",
+		OnlineCount: len(ConnGroupMap),
+		Date:        time.Now(),
+	}, false)
+	SendGroupMsg(conn, GroupResponse{
+		NickName:    chatUser.NickName,
+		Avatar:      chatUser.Avatar,
+		Content:     fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
+		Date:        time.Now(),
+		OnlineCount: len(ConnGroupMap),
+		MsgType:     InRoomMsg,
+	})
+
 	for {
 		// 消息类型，消息，错误
 		_, p, err := conn.ReadMessage()
@@ -109,7 +126,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				MsgType:     SystemMsg,
 				Content:     "参数绑定失败",
 				OnlineCount: len(ConnGroupMap),
-			})
+			}, true)
 			continue
 		}
 		// 判断类型
@@ -122,7 +139,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 					MsgType:     SystemMsg,
 					Content:     "消息不能为空",
 					OnlineCount: len(ConnGroupMap),
-				})
+				}, false)
 				continue
 			}
 			SendGroupMsg(conn, GroupResponse{
@@ -149,7 +166,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				MsgType:     SystemMsg,
 				Content:     "消息类型错误",
 				OnlineCount: len(ConnGroupMap),
-			})
+			}, true)
 		}
 
 	}
@@ -178,20 +195,22 @@ func SendGroupMsg(conn *websocket.Conn, response GroupResponse) {
 }
 
 // SendMsg 给某个用户发消息
-func SendMsg(_addr string, response GroupResponse) {
+func SendMsg(_addr string, response GroupResponse, isSave bool) {
 	byteData, _ := json.Marshal(response)
 	chatUser := ConnGroupMap[_addr]
-	ip, addr := getIPAndAddr(_addr)
-	global.DB.Create(&models.ChatModel{
-		NickName: response.NickName,
-		Avatar:   response.Avatar,
-		Content:  response.Content,
-		IP:       ip,
-		Addr:     addr,
-		IsGroup:  false,
-		MsgType:  response.MsgType,
-	})
 	chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
+	if isSave {
+		ip, addr := getIPAndAddr(_addr)
+		global.DB.Create(&models.ChatModel{
+			NickName: response.NickName,
+			Avatar:   response.Avatar,
+			Content:  response.Content,
+			IP:       ip,
+			Addr:     addr,
+			IsGroup:  false,
+			MsgType:  response.MsgType,
+		})
+	}
 }
 
 func getIPAndAddr(_addr string) (ip string, addr string) {

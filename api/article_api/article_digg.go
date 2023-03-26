@@ -12,7 +12,7 @@ import (
 // @Summary 文章点赞
 // @Description 文章点赞
 // @Param data body models.ESIDRequest   true  "表示多个参数"
-// @Router /api/digg/article [post]
+// @Router /api/articles/digg [post]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (ArticleApi) ArticleDiggView(c *gin.Context) {

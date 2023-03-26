@@ -605,6 +605,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/articles/digg": {
+            "post": {
+                "description": "文章点赞",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "文章点赞",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ESIDRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/articles/tags": {
             "get": {
                 "description": "标签文章列表",
@@ -725,7 +756,7 @@ const docTemplate = `{
                 "summary": "文章详情",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "id",
                         "name": "id",
                         "in": "path",
@@ -1141,37 +1172,6 @@ const docTemplate = `{
                                     }
                                 }
                             ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/digg/article": {
-            "post": {
-                "description": "文章点赞",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "文章管理"
-                ],
-                "summary": "文章点赞",
-                "parameters": [
-                    {
-                        "description": "表示多个参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ESIDRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/res.Response"
                         }
                     }
                 }

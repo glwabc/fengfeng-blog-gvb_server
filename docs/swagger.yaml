@@ -1315,7 +1315,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -1452,6 +1452,26 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 获取文章正文
+      tags:
+      - 文章管理
+  /api/articles/digg:
+    post:
+      description: 文章点赞
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.ESIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 文章点赞
       tags:
       - 文章管理
   /api/articles/tags:
@@ -1753,26 +1773,6 @@ paths:
       summary: 求和数据
       tags:
       - 数据管理
-  /api/digg/article:
-    post:
-      description: 文章点赞
-      parameters:
-      - description: 表示多个参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/models.ESIDRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/res.Response'
-      summary: 文章点赞
-      tags:
-      - 文章管理
   /api/email_login:
     post:
       description: 邮箱登录，返回token，用户信息需要从token中解码
