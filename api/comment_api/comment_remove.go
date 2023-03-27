@@ -9,13 +9,13 @@ import (
 	"gvb_server/models/res"
 	"gvb_server/service/redis_ser"
 	"gvb_server/utils"
+	"gvb_server/utils/jwts"
 )
 
 // CommentRemoveView 删除评论
 // @Tags 评论管理
 // @Summary 删除评论
 // @Description 删除评论
-// @Param data body CommentIDRequest   true  "表示多个参数"
 // @Param token header string  true  "token"
 // @Param id path int  true  "id"
 // @Router /api/comments/{id} [delete]
@@ -28,12 +28,20 @@ func (CommentApi) CommentRemoveView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
+	_claims, _ := c.Get("claims")
+	claims := _claims.(*jwts.CustomClaims)
 	var commentModel models.CommentModel
 	err = global.DB.Take(&commentModel, cr.ID).Error
 	if err != nil {
 		res.FailWithMessage("评论不存在", c)
 		return
 	}
+	// 这条评论只能由当前登录人删除，或者管理员
+	if !(commentModel.UserID == claims.UserID || claims.Role == 1) {
+		res.FailWithMessage("权限错误，不可删除", c)
+		return
+	}
+
 	// 统计评论下的子评论数 再把自己算上去
 	subCommentList := FindSubCommentCount(commentModel)
 	count := len(subCommentList) + 1

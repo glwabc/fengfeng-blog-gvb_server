@@ -1054,7 +1054,10 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/res.ListResponse-models_CommentModel"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/models.CommentModel"
+                                            }
                                         }
                                     }
                                 }
@@ -1073,15 +1076,6 @@ const docTemplate = `{
                 ],
                 "summary": "删除评论",
                 "parameters": [
-                    {
-                        "description": "表示多个参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment_api.CommentIDRequest"
-                        }
-                    },
                     {
                         "type": "string",
                         "description": "token",
@@ -3104,14 +3098,6 @@ const docTemplate = `{
                 }
             }
         },
-        "comment_api.CommentIDRequest": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
         "comment_api.CommentListResponse": {
             "type": "object",
             "properties": {
@@ -4144,17 +4130,6 @@ const docTemplate = `{
                 },
                 "list": {
                     "$ref": "#/definitions/models.ChatModel"
-                }
-            }
-        },
-        "res.ListResponse-models_CommentModel": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "list": {
-                    "$ref": "#/definitions/models.CommentModel"
                 }
             }
         },

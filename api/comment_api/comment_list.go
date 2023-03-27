@@ -21,7 +21,7 @@ type CommentListRequest struct {
 // @Param id path string  true  "id"
 // @Router /api/comments/{id} [get]
 // @Produce json
-// @Success 200 {object} res.Response{data=res.ListResponse[models.CommentModel]}
+// @Success 200 {object} res.Response{data=[]models.CommentModel}
 func (CommentApi) CommentListView(c *gin.Context) {
 	var cr CommentListRequest
 	err := c.ShouldBindUri(&cr)

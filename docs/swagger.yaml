@@ -196,11 +196,6 @@ definitions:
         description: 聊天类型
         type: integer
     type: object
-  comment_api.CommentIDRequest:
-    properties:
-      id:
-        type: integer
-    type: object
   comment_api.CommentListResponse:
     properties:
       article_banner:
@@ -912,13 +907,6 @@ definitions:
         type: integer
       list:
         $ref: '#/definitions/models.ChatModel'
-    type: object
-  res.ListResponse-models_CommentModel:
-    properties:
-      count:
-        type: integer
-      list:
-        $ref: '#/definitions/models.CommentModel'
     type: object
   res.ListResponse-models_FullTextModel:
     properties:
@@ -1665,12 +1653,6 @@ paths:
     delete:
       description: 删除评论
       parameters:
-      - description: 表示多个参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/comment_api.CommentIDRequest'
       - description: token
         in: header
         name: token
@@ -1709,7 +1691,9 @@ paths:
             - $ref: '#/definitions/res.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/res.ListResponse-models_CommentModel'
+                  items:
+                    $ref: '#/definitions/models.CommentModel'
+                  type: array
               type: object
       summary: 文章下的评论列表
       tags:

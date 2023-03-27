@@ -26,9 +26,9 @@ type ArticleIDTitleListResponse struct {
 func (ArticleApi) ArticleIDTitleListView(c *gin.Context) {
 	result, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(elastic.NewBoolQuery()).
-		Source(`{"_source": ["title"]}`).
-		Size(1000).
+		Query(elastic.NewMatchAllQuery()).
+		Source(`{"_source": ["title"]}`). // 这里有个bug，加上source只能获取10条数据，不知道什么原因
+		Size(10000).
 		Do(context.Background())
 	if err != nil {
 		global.Log.Error(err)
