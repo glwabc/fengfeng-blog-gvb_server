@@ -37,7 +37,7 @@ func main() {
 	// 连接es
 	global.ESClient = core.EsConnect()
 
-	go cron_ser.CronInit()
+	cron_ser.CronInit()
 
 	router := routers.InitRouter()
 

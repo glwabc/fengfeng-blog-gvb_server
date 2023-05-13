@@ -1,19 +1,14 @@
 package cron_ser
 
 import (
-	"github.com/go-co-op/gocron"
-	"github.com/sirupsen/logrus"
+	"github.com/robfig/cron/v3"
 	"time"
 )
 
 func CronInit() {
-	timezone, err := time.LoadLocation("Asia/Shanghai")
-	if err != nil {
-		logrus.Error(err.Error())
-		return
-	}
-	cron := gocron.NewScheduler(timezone)
-	cron.Cron("0 0 0 * *").Do(SyncArticleData)
-	cron.Cron("0 0 0 * *").Do(SyncCommentData)
-	cron.StartBlocking()
+	timezone, _ := time.LoadLocation("Asia/Shanghai")
+	Cron := cron.New(cron.WithSeconds(), cron.WithLocation(timezone))
+	Cron.AddFunc("0 0 0 * * *", SyncArticleData)
+	Cron.AddFunc("0 0 0 * * *", SyncCommentData)
+	Cron.Start()
 }

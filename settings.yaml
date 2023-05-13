@@ -41,13 +41,13 @@ qq:
   key: xxx
   redirect: http://blog.fengfengzhidao.com/login?flag=qq
 qi_niu:
-  enable: false
-  access_key: xx
-  secret_key: xx
-  bucket: fengfengzhidao
-  cdn: http://python.fengfengzhidao.com/
+  enable: true
+  access_key: ZnP90V73cxgvRQSqfae19FnK6N3GMMSxB2-l_nBn
+  secret_key: bD7SZh_at4kPNsL28scBGgEWCHbJNOnsR8zOVUAH
+  bucket: sportphotos
+  cdn: http://rtworch7c.hn-bkt.clouddn.com/
   zone: z2
-  prefix: gvb
+  prefix: fengfeng
   size: 6
 email:
   host: smtp.qq.com
@@ -64,7 +64,7 @@ jwy:
 redis:
   ip: 127.0.0.1
   port: 6379
-  password: redis
+  password:
   pool_size: 100
 es:
   host: http://127.0.0.1
