@@ -1,5 +1,7 @@
 package res
 
+// 错误状态码
+
 type ErrorCode int
 
 const (

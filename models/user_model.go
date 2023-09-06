@@ -22,3 +22,6 @@ type UserModel struct {
 	Sign       string           `gorm:"size:128" json:"sign,select(info)"`                // 我的签名
 	Link       string           `gorm:"size:128" json:"link,select(info)"`                // 我的链接地址
 }
+
+// 指定字符串长度，默认长度为255
+// 如果修改了表的tag标签需要删除表重新进行自动迁移才会生效

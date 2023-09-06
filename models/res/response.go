@@ -1,14 +1,17 @@
 package res
 
 import (
-	"github.com/gin-gonic/gin"
 	"gvb_server/utils"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
+
+// 封装统一响应
 
 type Response struct {
 	Code int    `json:"code"`
-	Data any    `json:"data"`
+	Data any    `json:"data"` // type any = interface{}
 	Msg  string `json:"msg"`
 }
 type ListResponse[T any] struct {
@@ -61,7 +64,7 @@ func FailWithError(err error, obj any, c *gin.Context) {
 	FailWithMessage(msg, c)
 }
 func FailWithCode(code ErrorCode, c *gin.Context) {
-	msg, ok := ErrorMap[code]
+	msg, ok := ErrorMap[code] // 防止乱写
 	if ok {
 		Result(int(code), map[string]any{}, msg, c)
 		return
